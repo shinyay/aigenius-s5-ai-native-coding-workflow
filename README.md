@@ -107,6 +107,6 @@ You are the **tech lead** in this workflow. Copilot handles the *how*. You defin
 
 ## Speaker
 
-**Michelle Sandford** -- Developer Engagement Lead, Australia and NZ
+**Shinya Yanagihara** -- Global Black Belt, Microsoft Corporation
 
-Michelle is a Developer Engagement Leader at Microsoft who writes code, builds with GitHub and Azure AI, and learns out loud.
+Shinya works across Microsoft's developer tooling with GitHub at the centre, helping teams adopt AI-native development practices and driving the organisational culture change that makes them stick.

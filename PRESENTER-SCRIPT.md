@@ -32,7 +32,7 @@
 *Screen: Title slide or repo README*
 
 **SAY:**
-> Welcome everyone, thanks for tuning in. My name is Michelle. I'm a Developer Engagement Lead at Microsoft.
+> Welcome everyone, thanks for tuning in. My name is Shinya. I'm a Global Black Belt at Microsoft.
 >
 > Today we're going to do something a little different. I'm not going to teach you GitHub Copilot features. I'm going to change how you think about writing code.
 >
