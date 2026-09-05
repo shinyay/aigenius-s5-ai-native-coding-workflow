@@ -1,5 +1,7 @@
 # Exercise 02 -- Assign the Issue to Copilot
 
+English | [日本語](README.ja.md)
+
 ## Goal
 
 Delegate your issue to Copilot and observe it working in real time, then use Copilot Chat and the Copilot CLI to explore the codebase while you wait.
@@ -8,7 +10,7 @@ Delegate your issue to Copilot and observe it working in real time, then use Cop
 
 In the old workflow, after writing an issue you would open your IDE and start coding. In the AI-native workflow, you've just delegated this task to a team member. Your job is now to **guide and review**, not type every line yourself.
 
-Copilot spins up a secure, isolated GitHub Actions VM to do this work. It cannot touch your production environment, cannot merge without your approval, and keeps a full session log so you can see exactly what it did and why.
+By default, the Copilot cloud agent works in a restricted, temporary environment. Its effective access still depends on the runner, network and firewall configuration, available secrets, MCP servers and other tools, and workflow permissions or approvals. This workshop does not grant the agent production access. In your own repositories, review those controls rather than assuming isolation alone removes every risk.
 
 ---
 
@@ -19,41 +21,61 @@ Copilot spins up a secure, isolated GitHub Actions VM to do this work. It cannot
 1. Open the issue you wrote in Exercise 01.
 2. In the **Assignees** panel on the right, click the gear icon.
 3. Search for and select **Copilot** from the list.
-4. Save the assignment.
+4. In the assignment dialog, confirm the target repository and base branch.
+5. If the dialog shows an optional prompt, agent, model, or reasoning level, review those settings and change them only when you have a reason to do so.
+6. Click **Assign**.
 
-You should see Copilot appear in the assignees list and a comment appear on the issue indicating it has picked up the work.
+A 👀 reaction indicates that Copilot received the assignment. A normal issue comment is not guaranteed. Confirm that work has actually started by checking for session status **working** or opening **View session**.
 
-### Step 2 -- Open the Copilot App
+### Step 2 -- Open the Agent Session
 
-1. Open the **GitHub Copilot App** on your desktop.
-2. Navigate to the **My Work** view.
-3. Find the active session for your issue.
+1. Open the **GitHub Copilot App** and navigate to **My Work**, or open the repository's **Agents** tab.
+2. Find the session linked to your issue.
+3. Confirm its status is **working**, then open **View session**.
 
 ### Step 3 -- Observe
 
 Watch Copilot work. You will see it:
 
-- Clone the repository into a secure sandbox
+- Clone the repository into its restricted temporary environment
 - Explore the codebase to understand the existing structure
 - Make code changes
-- Open a draft PR with a session log explaining its decisions
+- Run checks and record its work in the full session
+- Open a draft PR with a summary of its work
 
 Do not intervene yet. Just observe.
 
 ### Step 4 -- Explore with Copilot Chat
 
-While the agent session runs in the background, open **Copilot Chat** in your editor (VS Code, JetBrains, or the github.com chat panel) against your local clone of `starter-app`. Try asking it:
+While the agent session runs in the background, open **Copilot Chat in VS Code** against your local clone of `starter-app`.
 
-- `@workspace explain how app.py stores and loads tasks`
-- `@workspace what would I need to change to add a new field to a task?`
-- `/explain` on the `list` command in `app.py`
+Select the relevant code in `app.py` when needed, then try:
 
-This is a different mode of working with Copilot: instead of delegating a whole task, you are having a conversation to build understanding. Notice how Chat answers are grounded in the actual files in your workspace, the same codebase the agent is currently editing in its sandbox.
+- Run `/explain` on the `list` command.
+- Ask: `How does app.py store and load tasks?`
+- Optionally add `#project` and ask: `What would I need to change to add a new field to a task?`
+
+This is a different mode of working with Copilot: instead of delegating a whole task, you are having a conversation to build understanding. Check that the response is grounded in the selected code or repository context.
+
+Copilot Chat capabilities and context controls differ across JetBrains IDEs and github.com. If you use another client, use its current UI to select or attach the relevant repository, files, or code rather than assuming that VS Code commands work there.
 
 ### Step 5 -- Explore with the Copilot CLI
 
-If you have the [GitHub Copilot CLI](https://docs.github.com/en/copilot/how-tos/set-up/install-copilot-cli) installed, try it from your terminal in the repo root:
+If you have the [GitHub Copilot CLI](https://docs.github.com/en/copilot/how-tos/copilot-cli/set-up-copilot-cli/install-copilot-cli) installed, try it from your terminal in the repo root:
 
 ```bash
-gh copilot suggest "run the starter-app tests and show a summary of failures"
-gh copilot explain "python app.py stats"
+copilot
+```
+
+Then enter prompts such as:
+
+```text
+Run the starter-app tests and summarize any failures.
+Explain what `python app.py stats` does and which code paths it uses.
+```
+
+---
+
+## Next Step
+
+Once the draft PR is ready, move on to [Exercise 03 -- Review the Draft PR](../03-review-a-pr/README.md).
