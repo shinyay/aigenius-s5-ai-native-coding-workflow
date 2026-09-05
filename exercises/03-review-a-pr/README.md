@@ -1,5 +1,7 @@
 # Exercise 03 -- Review the Draft PR
 
+English | [日本語](README.ja.md)
+
 ## Goal
 
 Review Copilot's pull request with the critical eye of a senior developer.
@@ -19,13 +21,13 @@ You are the quality gate. The AI generates fast. You verify smart.
 1. Go to the **Pull Requests** tab in your repo.
 2. Open the draft PR that Copilot created from your issue.
 
-### Step 2 -- Read the Session Log
+### Step 2 -- Read the Full Session
 
-Before looking at the code diff, read the session log Copilot included in the PR description. This explains:
+The PR description contains a summary, not the complete session log. Before looking at the code diff:
 
-- How it interpreted your issue
-- What decisions it made and why
-- What it chose not to do
+1. Use **View session** from the PR or issue, or open the repository's **Agents** tab.
+2. Read the complete session to see how Copilot interpreted the issue, what it inspected, which commands it ran, and what decisions it made.
+3. Cross-check the PR description summary against the full session. Note missing details or inconsistencies for review.
 
 ### Step 3 -- Review the Diff
 
@@ -65,7 +67,7 @@ Use this checklist on every Copilot-generated PR:
 ## Your Task (Continued)
 
 4. Work through the checklist above.
-5. Leave **at least one comment** on the PR requesting a change or asking a clarifying question.
+5. Leave **at least one comment** on the PR requesting a change or asking a clarifying question. Use an inline comment when the concern belongs to a changed line. Use a top-level PR comment when behaviour is missing entirely or the concern spans multiple files.
 
 Good comments are specific. Instead of:
 > "This could be better"
@@ -78,7 +80,7 @@ Try:
 ## Reflection Questions
 
 - Did Copilot miss anything from the acceptance criteria?
-- Were there any decisions in the session log you disagreed with?
+- Were there any decisions in the full session you disagreed with?
 - How did writing a detailed issue affect the quality of the PR?
 
 ---

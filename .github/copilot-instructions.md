@@ -1,4 +1,8 @@
-# Copilot Instructions for AIGenius-GHCP-AINative
+# Copilot Instructions for aigenius-s5-ai-native-coding-workflow
+
+English (canonical) | [日本語](copilot-instructions.ja.md)
+
+> The Japanese file is a contributor reference. This English file remains the canonical Copilot instruction source.
 
 This is a Python-based workshop project used in the AI Genius Episode 1 session on AI-native coding workflows with GitHub Copilot.
 
@@ -58,8 +62,10 @@ from azure.core.credentials import AzureNamedKeyCredential
 ```python
 from openai import AzureOpenAI
 ```
-- Use environment variables: `AZURE_OPENAI_ENDPOINT`, `AZURE_OPENAI_API_KEY`, `AZURE_OPENAI_DEPLOYMENT`
-- Never hardcode API keys in source code
+- Use environment variables: `AZURE_OPENAI_ENDPOINT`, `AZURE_OPENAI_API_KEY`, `AZURE_OPENAI_DEPLOYMENT`, `OPENAI_API_VERSION`
+- Pass `OPENAI_API_VERSION` as the `api_version` argument when creating `AzureOpenAI`
+- Pass `AZURE_OPENAI_DEPLOYMENT` as `azure_deployment` or as the request's `model`; the SDK does not infer this custom environment variable
+- Never hardcode, log, or print API keys
 - Use `python-dotenv` to load env vars
 
 ### Environment variable pattern
@@ -78,6 +84,7 @@ connection_string = os.environ["AZURE_STORAGE_CONNECTION_STRING"]
 - Name test files `test_*.py`
 - Use the `isolated_tasks_file` fixture from `conftest.py` to avoid touching real data
 - Test edge cases: empty task lists, invalid IDs, invalid dates, missing env vars
+- Mock Azure and OpenAI clients in unit tests; never call real cloud services
 
 ## What "Done" Looks Like
 
@@ -94,4 +101,3 @@ A feature is complete when:
 - Error messages should be clear and actionable
 - Use exit codes: 0 for success, non-zero for errors
 - Overdue tasks should be highlighted in red in the task list
-

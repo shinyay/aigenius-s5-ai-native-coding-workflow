@@ -1,5 +1,7 @@
 # Exercise 05 -- Azure + AI: The Cloud-Native Extension
 
+English | [日本語](README.ja.md)
+
 ## Goal
 
 See how Copilot handles real cloud SDK integration and AI feature development — and understand what makes these tasks both impressive and risky to delegate.
@@ -101,22 +103,23 @@ python app.py add "Renew SSL certificate"
 Users often forget to tag tasks when adding them. We want to use Azure OpenAI to suggest a single category tag automatically when no tags are provided.
 
 **Desired behaviour:**
-- When `AZURE_OPENAI_ENDPOINT`, `AZURE_OPENAI_API_KEY`, and `AZURE_OPENAI_DEPLOYMENT` are all set AND the user does not provide any `--tag` arguments, call Azure OpenAI to suggest a single tag for the task.
+- When `AZURE_OPENAI_ENDPOINT`, `AZURE_OPENAI_API_KEY`, `AZURE_OPENAI_DEPLOYMENT`, and `OPENAI_API_VERSION` are all set AND the user does not provide any `--tag` arguments, call Azure OpenAI to suggest a single tag for the task.
 - The suggested tag is added automatically and displayed to the user: `[AI suggested tag: devops]`
 - If any of the env vars are missing, or if the AI call fails, the task is saved without a tag (graceful degradation — never block the user).
 - Add a `--no-ai` flag to `add` that skips the AI suggestion entirely.
 
 **Acceptance criteria:**
 - [ ] `suggest_tag(task_name: str, description: str) -> str | None` function in a new `ai.py` module
-- [ ] Uses `openai.AzureOpenAI` with credentials from environment variables
+- [ ] Uses `openai.AzureOpenAI` with credentials and `api_version` from environment variables, and passes `AZURE_OPENAI_DEPLOYMENT` as the deployment or request model
 - [ ] System prompt instructs the model to return a single lowercase tag (no punctuation)
 - [ ] `add` command calls `suggest_tag` only when no `--tag` flags are provided and `--no-ai` is not set
 - [ ] Graceful degradation: any exception from the AI call is caught and logged, task is saved normally
 - [ ] `openai` added to `requirements.txt`
 - [ ] Tests for `suggest_tag` mock the OpenAI client — no real API calls in tests
+- [ ] Tests verify the timeout and retry configuration
 
 **Constraints:**
-- The AI call must not block the user for more than 5 seconds (use `timeout=5` in the client)
+- Configure a five-second request timeout and disable automatic retries to limit waiting (`timeout=5`, `max_retries=0`)
 - Never log or print the raw API key
 - The `--no-ai` flag is documented in `--help`
 
@@ -131,16 +134,22 @@ Users often forget to tag tasks when adding them. We want to use Azure OpenAI to
 ### What to Look for in the PR
 
 - **Is the AI call truly optional?** The app must work even when the env vars are not set.
-- **Is the timeout enforced?** A slow OpenAI call should not block the CLI.
+- **Is waiting bounded by explicit client settings?** Verify the five-second request timeout and disabled automatic retries; these settings limit network waiting but are not a strict end-to-end wall-clock deadline.
 - **Is the prompt well-designed?** Ask Copilot to show you the system prompt — does it constrain the output format clearly?
 - **Are errors swallowed silently?** Errors should be caught and logged, not silently ignored.
+- **Is the data sent to Azure OpenAI clear and appropriate?** The task name and description may contain sensitive information, so verify exactly which fields leave the local machine and ensure prompts and logs do not expose secrets.
 
 ---
 
-## Stretch Goal: Run the Full Loop Twice
+## Stretch Goal: Complete the Cloud + AI Extensions
 
-1. Complete Option 1 (Azure storage) with Copilot via the AI-native loop
-2. After merging, write a new issue for Option 2 (Azure OpenAI) and run the loop again
+Choose the path that matches the feature you implemented in Exercise 01:
+
+- If you completed Option A, continue with Option 2 (Azure OpenAI).
+- If you completed Option B, implement Option 1 (Azure Table Storage).
+- If you completed Option C or D, implement Option 1 first, then Option 2.
+
+For each remaining option, run the complete AI-native loop: write the issue, assign it to Copilot, review the PR, iterate through feedback, and merge according to your repository rules.
 
 By the end, you'll have an app that:
 - Stores tasks in Azure Table Storage
@@ -148,12 +157,12 @@ By the end, you'll have an app that:
 - Has a full test suite with mocked cloud calls
 - Loads all credentials from environment variables
 
-That is a production-grade AI-native cloud application — built through collaboration between you and Copilot.
+That gives you a foundation for a cloud-backed, AI-assisted application — built through collaboration between you and Copilot.
 
 ---
 
 ## Next Steps
 
-- Read the [Azure Table Storage Python quickstart](https://learn.microsoft.com/en-us/azure/storage/tables/table-storage-quickstart-create-python)
+- Read the [Azure Tables client library guide for Python](https://learn.microsoft.com/en-us/python/api/overview/azure/data-tables-readme?view=azure-python)
 - Read the [Azure OpenAI Python quickstart](https://learn.microsoft.com/en-us/azure/ai-services/openai/quickstart?pivots=programming-language-python)
 - Explore [GitHub Copilot documentation](https://docs.github.com/en/copilot)

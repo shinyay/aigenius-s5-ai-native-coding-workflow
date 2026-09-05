@@ -1,5 +1,7 @@
 # Exercise 04 -- Iterate via PR Comments
 
+English | [日本語](README.ja.md)
+
 ## Goal
 
 Refine Copilot's work through PR comments rather than starting from scratch.
@@ -20,7 +22,11 @@ Go back to the draft PR you reviewed in Exercise 03. Find the comment you left r
 
 ### Step 2 -- Watch Copilot Respond
 
-Copilot will pick up your comment and update the branch. Watch it:
+An ordinary review comment does not necessarily start another Copilot session. A user with write access should explicitly mention Copilot, for example:
+
+> `@copilot Please address this feedback and add the related tests.`
+
+The GitHub Copilot app may also offer **Fix** on some comments, but **Fix** is not available for every comment. After requesting the change, use **View session** or the repository's **Agents** tab to confirm the session is **working**. Then watch Copilot:
 
 - Interpret your feedback
 - Make the requested changes
@@ -36,25 +42,27 @@ Once Copilot has responded, review the updated diff:
 
 ### Step 4 -- Leave Another Round of Feedback (Optional)
 
-If the changes need further refinement, leave another comment. Be even more specific this time.
+If the changes need further refinement, leave another specific comment and mention `@copilot` again. If **Fix** is available, you may use it instead.
 
 Examples of effective iteration comments:
 
-> "The validation you added rejects empty strings, but it does not trim whitespace first. A task name of '   ' (spaces only) should also be rejected."
+> "`@copilot` The validation you added rejects empty strings, but it does not trim whitespace first. A task name of '   ' (spaces only) should also be rejected."
 
-> "Can you move the CSV export logic into its own function? The current implementation mixes I/O and formatting in a way that will be hard to test."
+> "`@copilot` Can you move the CSV export logic into its own function? The current implementation mixes I/O and formatting in a way that will be hard to test."
 
-> "The error message on line 42 says 'invalid input' but doesn't tell the user what valid input looks like. Can you improve it?"
+> "`@copilot` The error message on line 42 says 'invalid input' but doesn't tell the user what valid input looks like. Can you improve it?"
 
 ### Step 5 -- Approve and Merge
 
 When you are satisfied with the PR:
 
 1. Change the PR from **Draft** to **Ready for Review**.
-2. Leave a final review approval.
-3. Merge the PR.
+2. Inspect any workflow changes before approving an Actions run. By default, workflows triggered by Copilot cloud-agent PR updates may wait for **Approve and run workflows** unless an administrator has disabled that requirement.
+3. Confirm required checks pass.
+4. Obtain the required approval. The person who assigned the related Issue to Copilot cannot provide the required approval for that Copilot PR. If branch protection or rulesets require approval, ask an independent authorized reviewer.
+5. Merge the PR yourself according to the repository's merge policy.
 
-Remember: **Copilot cannot merge.** The human is always the final gate. This is intentional. AI-native does not mean AI-autonomous. It means AI-collaborative.
+The GitHub Copilot app supports Agent Merge, but this workshop does not use Agent Merge or automatic merge. A human reviews the final result and performs the merge as workshop policy. The human remains the final gate.
 
 ---
 
@@ -82,6 +90,7 @@ That is AI-native development.
 
 ## What Next?
 
+- Continue to [Exercise 05 -- Azure + AI: The Cloud-Native Extension](../05-azure-and-ai/README.md)
 - Explore the [GitHub Copilot documentation](https://docs.github.com/en/copilot)
-- Try the [Copilot CLI](https://docs.github.com/en/copilot/using-github-copilot/using-github-copilot-in-the-command-line): `gh copilot suggest "undo my last commit but keep the changes"`
+- Try the [Copilot CLI](https://docs.github.com/en/copilot/concepts/agents/copilot-cli/about-copilot-cli): run `copilot`, then ask `Revert the last commit, leaving the changes unstaged.`
 - Write a `copilot-instructions.md` for one of your own projects

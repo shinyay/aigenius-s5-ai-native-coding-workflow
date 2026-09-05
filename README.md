@@ -1,5 +1,7 @@
 # AI Genius Episode 1: Workshop Repo
 
+English | [日本語](README.ja.md)
+
 ![TitlePage](./assets/AI-Genius-Ep1.png)
 
 
@@ -26,8 +28,9 @@ Welcome! This is the hands-on workshop repo for **AI Genius Episode 1**. You'll 
 IDEA
   └─► GitHub Issue  (describe the work)
         └─► Assign to Copilot  (Copilot agent picks it up)
-              └─► Code is generated in a secure sandbox
-                    └─► Draft PR is opened  (with session log)
+              └─► Work runs in a restricted temporary environment
+                    │   (effective access depends on configuration)
+                    └─► Draft PR is opened  (summary + View session)
                           └─► Human reviews and iterates via PR comments
                                 └─► Merge and ship
 ```
@@ -41,7 +44,7 @@ You are the **tech lead** in this workflow. Copilot handles the *how*. You defin
 ### Prerequisites
 
 - A GitHub account with access to GitHub Copilot
-- [GitHub Copilot App](https://github.com/features/copilot) installed (desktop)
+- [GitHub Copilot App](https://docs.github.com/en/copilot/get-started/quickstart-copilot-app) installed and signed in
 - Python 3.10+ installed locally (for the starter app)
 - Git installed
 
@@ -51,8 +54,8 @@ You are the **tech lead** in this workflow. Copilot handles the *how*. You defin
 
 2. **Clone your fork** locally:
    ```bash
-   git clone https://github.com/YOUR-USERNAME/AIGenius-GHCP-AINative.git
-   cd AIGenius-GHCP-AINative
+   git clone https://github.com/YOUR-USERNAME/aigenius-s5-ai-native-coding-workflow.git
+   cd aigenius-s5-ai-native-coding-workflow
    ```
 
 3. **Run the starter app**:
@@ -73,12 +76,14 @@ You are the **tech lead** in this workflow. Copilot handles the *how*. You defin
 ## Repo Structure
 
 ```
-📁 AIGenius-GHCP-AINative/
-  ├── README.md                        # Episode intro + setup instructions
+📁 aigenius-s5-ai-native-coding-workflow/
+  ├── README.md / README.ja.md         # English and Japanese workshop guides
   ├── .github/
-  │   ├── copilot-instructions.md      # Copilot context: conventions, Azure patterns, secrets
+  │   ├── copilot-instructions.md      # Canonical Copilot context
+  │   ├── copilot-instructions.ja.md   # Japanese contributor reference
   │   └── ISSUE_TEMPLATE/
-  │       └── feature-request.md       # Issue template for AI-native workflow
+  │       ├── feature-request.md       # English feature template
+  │       └── feature-request-ja.md    # Japanese feature template
   ├── exercises/
   │   ├── 01-write-an-issue/           # Task: write a well-formed issue (cloud/AI options)
   │   ├── 02-assign-to-copilot/        # Task: assign + observe

@@ -1,5 +1,5 @@
 ---
-name: Feature Request
+name: Feature Request (English)
 about: Use this template to propose a new feature for Copilot to implement
 title: "[FEATURE] "
 labels: enhancement
@@ -31,5 +31,6 @@ assignees: ''
 - [ ] Feature works as described above
 - [ ] Input is validated and edge cases are handled
 - [ ] Code has type hints and docstrings
-- [ ] No hardcoded values or credentials
+- [ ] No credentials or environment-specific values are hardcoded
 - [ ] Existing tests still pass
+- [ ] New tests cover the new behaviour

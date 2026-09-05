@@ -1,5 +1,7 @@
 # Exercise 01 -- Write a Well-Formed Issue
 
+English | [日本語](README.ja.md)
+
 ## Goal
 
 Learn to write GitHub Issues that give Copilot the context it needs to produce high-quality code.
@@ -29,7 +31,7 @@ A well-formed issue for Copilot includes:
 ## Your Task
 
 1. Go to the **Issues** tab in this repo.
-2. Click **New issue** and choose the **Feature Request** template.
+2. Click **New issue** and choose the **Feature Request (English)** template.
 3. Write an issue for one of the following features:
 
    **Option A:** Migrate task storage to Azure Table Storage
@@ -60,4 +62,3 @@ A well-formed issue for Copilot includes:
 ## Next Step
 
 Once you've written your issue, move on to [Exercise 02 -- Assign to Copilot](../02-assign-to-copilot/README.md).
-
