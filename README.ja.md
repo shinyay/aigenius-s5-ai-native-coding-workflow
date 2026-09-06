@@ -86,6 +86,21 @@ Copilotは実装の速度を高めますが、何を作るべきか、変更を�
 
 ---
 
+## GitHub Copilot Appでスライドを表示する
+
+このリポジトリには、PowerPointへ切り替えずにAI Genius S5E1のスライド画像を表示するProject Canvas extensionが含まれています。
+
+1. GitHub Copilot Appでこのリポジトリを開きます。
+2. Project extensionが読み込まれた状態でsessionを開始します。
+3. Copilotへ「AI Genius Slide PresenterをCanvasで開いて」と依頼します。
+4. Canvas上のボタン、サムネイル、キーボードで発表します。
+
+前後移動、サムネイルからの直接選択、スライド番号、全画面表示に対応します。ホスト側でFullscreen APIが許可されない場合は、Canvas内presentation modeへ切り替わります。
+
+操作方法と画像の更新手順は[`presentation/ai-genius-s5e1`](./presentation/ai-genius-s5e1/README.ja.md)を参照してください。
+
+---
+
 ## 演習の流れ
 
 | 演習 | 学ぶこと |
@@ -106,6 +121,8 @@ aigenius-s5-ai-native-coding-workflow/
   ├── .github/
   │   ├── copilot-instructions.md
   │   ├── copilot-instructions.ja.md
+  │   ├── extensions/
+  │   │   └── ai-genius-presenter/
   │   └── ISSUE_TEMPLATE/
   │       ├── feature-request.md
   │       └── feature-request-ja.md
@@ -115,6 +132,8 @@ aigenius-s5-ai-native-coding-workflow/
   │   ├── 03-review-a-pr/
   │   ├── 04-iterate/
   │   └── 05-azure-and-ai/
+  ├── presentation/
+  │   └── ai-genius-s5e1/
   └── starter-app/
       ├── app.py
       ├── requirements.txt
