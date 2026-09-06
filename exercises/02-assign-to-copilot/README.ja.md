@@ -60,9 +60,9 @@ Copilot cloud agentは、既定では制限された一時環境で作業しま�
 
 エージェントがバックグラウンドで作業している間に、ローカルへ複製した`starter-app`を対象として、**VS Code** の **Copilot Chat** を開きます。必要に応じて`app.py`の関連コードを選択し、次を試します。
 
-- `list`コマンドの実装を選択して`/explain`を実行する
-- `How does app.py store and load tasks?`と質問する
-- 必要に応じて`#project`を追加し、`What would I need to change to add a new field to a task?`と質問する
+- `list`コマンドの実装を選択して`/explain in Japanese`を実行する
+- `How does app.py store and load tasks? Answer in Japanese.`と質問する
+- 必要に応じて`#project`を追加し、`What would I need to change to add a new field to a task? Answer in Japanese.`と質問する
 
 これはタスク全体を委譲するAgent modeとは異なり、対話しながら自分の理解を深める使い方です。回答が一般論ではなく、選択したコードやリポジトリの文脈に基づいているか確認してください。
 
@@ -76,14 +76,25 @@ JetBrains IDEsやgithub.comでは、利用できるコマンドや文脈の付�
 copilot
 ```
 
-起動後、次のプロンプトをそのまま入力してみます。
+起動後、次のプロンプトを1つずつ入力します。
+
+CLIがコマンドを実行しようとする場合は、提案内容と対象ディレクトリを確認してから許可します。
+
+1. 最初に、テストを実行して失敗を要約するよう依頼します。
 
 ```text
-Run the starter-app tests and summarize any failures.
-Explain what `python app.py stats` does and which code paths it uses.
+Run the starter-app tests and summarize any failures. Answer in Japanese.
 ```
 
-CLIがコマンドを実行しようとする場合は、提案内容と対象ディレクトリを確認してから許可します。出力では、成功・失敗の要約だけでなく、参照したファイルや実行したコマンドが妥当かを見ます。
+テスト結果を確認してから次へ進みます。
+
+2. 次に、`stats`コマンドの動作と、使われているコードパスを説明するよう依頼します。
+
+```text
+Explain what `python app.py stats` does and which code paths it uses. Answer in Japanese.
+```
+
+どちらのプロンプトでも、出力では成功・失敗の要約だけでなく、参照したファイルや実行したコマンドが妥当かを見ます。
 
 ---
 

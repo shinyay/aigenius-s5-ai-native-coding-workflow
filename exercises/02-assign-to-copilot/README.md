@@ -67,12 +67,25 @@ If you have the [GitHub Copilot CLI](https://docs.github.com/en/copilot/how-tos/
 copilot
 ```
 
-Then enter prompts such as:
+Enter the prompts one at a time.
+
+Whenever the CLI proposes to run a command, review the command and target directory before approving it.
+
+1. Ask Copilot CLI to run the test suite:
 
 ```text
 Run the starter-app tests and summarize any failures.
+```
+
+Review the test result before continuing.
+
+2. Ask Copilot CLI to trace the `stats` command:
+
+```text
 Explain what `python app.py stats` does and which code paths it uses.
 ```
+
+For both prompts, look beyond the final summary and confirm that the referenced files and executed commands are appropriate for the question.
 
 ---
 
