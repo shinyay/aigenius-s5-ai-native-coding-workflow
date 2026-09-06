@@ -1,0 +1,78 @@
+{
+  "version": 1,
+  "id": "ai-genius-s5e1-jp",
+  "title": "Microsoft AI Genius S5E1 - GitHub CopilotによるAIネイティブ開発",
+  "aspectRatio": "16:9",
+  "slides": [
+    {
+      "number": 1,
+      "file": "slides/slide-01.jpg",
+      "title": "AI Genius S5E1 タイトル",
+      "sourceFile": "Slide1.JPG",
+      "sha256": "743dd1878728f41e902333b2ea0537dcb50b0af1a52e6d84e0c66c12f5a89cd6"
+    },
+    {
+      "number": 2,
+      "file": "slides/slide-02.jpg",
+      "title": "GitHub Copilotを使用したAIネイティブ開発",
+      "sourceFile": "Slide2.JPG",
+      "sha256": "6cb037598679a305209761046ffaf41a7b0c86e2f9e2fe4ca6dfc6a8ceb0d9e0"
+    },
+    {
+      "number": 3,
+      "file": "slides/slide-03.jpg",
+      "title": "AIネイティブなワークフローのループ",
+      "sourceFile": "Slide3.JPG",
+      "sha256": "7f4451598b97582f794e790703cae8ece5969ea501377d0ed5d4f81277dfe517"
+    },
+    {
+      "number": 4,
+      "file": "slides/slide-04.jpg",
+      "title": "GitHub Copilotを始めよう",
+      "sourceFile": "Slide4.JPG",
+      "sha256": "be590ea9ea5472a8440f61f86b55f2072ca74fd4e97a384d83c14e49089b1dbf"
+    },
+    {
+      "number": 5,
+      "file": "slides/slide-05.jpg",
+      "title": "AIネイティブなコーディングに関する5つのゴールデンルール",
+      "sourceFile": "Slide5.JPG",
+      "sha256": "41d635f3706211341d1c076768538271b91c63f96a51bcb0da26004a3abce8f8"
+    },
+    {
+      "number": 6,
+      "file": "slides/slide-06.jpg",
+      "title": "デモ：AIネイティブなコーディングワークフロー",
+      "sourceFile": "Slide6.JPG",
+      "sha256": "734d868d2e71c6f13c369ae70fa02283d2d1c588fc2e7a3778158fe859f8a78a"
+    },
+    {
+      "number": 7,
+      "file": "slides/slide-07.jpg",
+      "title": "リソース",
+      "sourceFile": "Slide7.JPG",
+      "sha256": "6cd576bd4d7862fd02f1928ba8b9d1d2b587976eed4aba347db6c68944257ec9"
+    },
+    {
+      "number": 8,
+      "file": "slides/slide-08.jpg",
+      "title": "セッションフィードバック",
+      "sourceFile": "Slide8.JPG",
+      "sha256": "0b954ca4b8c8e95e10c192c645cfeabae42c1d444974f4a7bcf4cd4a5cfbab24"
+    },
+    {
+      "number": 9,
+      "file": "slides/slide-09.jpg",
+      "title": "Microsoft AI Geniusシリーズ",
+      "sourceFile": "Slide9.JPG",
+      "sha256": "cbd85459c1d6b182304dab54bc00a5af5c85843eb6b859a1c502e00d9615d402"
+    },
+    {
+      "number": 10,
+      "file": "slides/slide-10.jpg",
+      "title": "参加者限定バッジ",
+      "sourceFile": "Slide10.JPG",
+      "sha256": "4636003214726c2703391a4345a67e16a8d723bd70a14c332fcb8b178b16494d"
+    }
+  ]
+}

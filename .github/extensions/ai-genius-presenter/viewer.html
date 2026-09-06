@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="dark light">
+    <title>Presentation viewer</title>
+    <link rel="stylesheet" href="/viewer.css">
+    <script src="/viewer.js" defer></script>
+  </head>
+  <body>
+    <div class="app" id="app" aria-busy="true">
+      <header class="app-header">
+        <div class="deck-heading">
+          <span class="eyebrow">Presentation</span>
+          <h1 id="deck-title">Loading deck…</h1>
+        </div>
+        <div
+          class="connection-status"
+          id="connection-status"
+          role="status"
+          aria-live="polite"
+          data-kind="loading"
+        >
+          <span class="status-dot" aria-hidden="true"></span>
+          <span id="connection-text">Loading deck…</span>
+        </div>
+      </header>
+
+      <main class="viewer" id="viewer">
+        <section
+          class="stage"
+          id="stage"
+          aria-label="Presentation slide"
+          tabindex="-1"
+        >
+          <div class="slide-frame" id="slide-frame">
+            <img id="slide-image" alt="" hidden>
+            <div class="stage-message" id="stage-message" role="status" aria-live="polite">
+              <div class="loader" aria-hidden="true"></div>
+              <p id="stage-message-text">Loading presentation…</p>
+              <button class="secondary-button" id="retry-button" type="button" hidden>
+                Retry
+              </button>
+            </div>
+          </div>
+
+          <nav class="controls" id="controls" aria-label="Presentation controls">
+            <div class="control-group" aria-label="Slide navigation">
+              <button
+                class="icon-button"
+                id="first-button"
+                type="button"
+                title="First slide (Home)"
+                aria-label="Go to first slide"
+              >
+                <span aria-hidden="true">⏮</span>
+              </button>
+              <button
+                class="icon-button"
+                id="previous-button"
+                type="button"
+                title="Previous slide (Left arrow or Page Up)"
+                aria-label="Go to previous slide"
+              >
+                <span aria-hidden="true">◀</span>
+              </button>
+              <output class="slide-counter" id="slide-counter" aria-live="polite">
+                <span id="current-slide">—</span>
+                <span aria-hidden="true">/</span>
+                <span class="sr-only">of</span>
+                <span id="total-slides">—</span>
+              </output>
+              <button
+                class="icon-button"
+                id="next-button"
+                type="button"
+                title="Next slide (Right arrow, Page Down, or Space)"
+                aria-label="Go to next slide"
+              >
+                <span aria-hidden="true">▶</span>
+              </button>
+              <button
+                class="icon-button"
+                id="last-button"
+                type="button"
+                title="Last slide (End)"
+                aria-label="Go to last slide"
+              >
+                <span aria-hidden="true">⏭</span>
+              </button>
+            </div>
+
+            <div class="control-group" aria-label="Viewer options">
+              <button
+                class="icon-button"
+                id="thumbnails-button"
+                type="button"
+                title="Toggle thumbnails (T)"
+                aria-label="Show thumbnails"
+                aria-controls="thumbnail-rail"
+                aria-expanded="false"
+              >
+                <span aria-hidden="true">▦</span>
+              </button>
+              <button
+                class="icon-button"
+                id="fullscreen-button"
+                type="button"
+                title="Presentation mode (F)"
+                aria-label="Enter fullscreen presentation mode"
+                aria-pressed="false"
+              >
+                <span aria-hidden="true">⛶</span>
+              </button>
+            </div>
+          </nav>
+        </section>
+
+        <aside class="thumbnail-rail" id="thumbnail-rail" aria-label="Slides" hidden>
+          <div class="thumbnail-header">
+            <h2>Slides</h2>
+            <button
+              class="icon-button compact"
+              id="close-thumbnails-button"
+              type="button"
+              aria-label="Hide thumbnails"
+              title="Hide thumbnails (T)"
+            >
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <ol class="thumbnail-list" id="thumbnail-list"></ol>
+        </aside>
+      </main>
+    </div>
+  </body>
+</html>

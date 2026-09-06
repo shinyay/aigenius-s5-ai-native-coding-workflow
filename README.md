@@ -73,6 +73,22 @@ You are the **tech lead** in this workflow. Copilot handles the *how*. You defin
 5. Work through the exercises in order, starting with [`exercises/01-write-an-issue`](./exercises/01-write-an-issue/README.md).
 
 ---
+
+## Present the Slides in GitHub Copilot App
+
+The repository includes a project Canvas extension that presents the AI Genius S5E1 slide images without switching to PowerPoint.
+
+1. Open this repository in GitHub Copilot App.
+2. Start a session after project extensions have loaded.
+3. Ask Copilot: `Open the AI Genius Slide Presenter canvas.`
+4. Use the on-screen controls, thumbnails, or keyboard shortcuts to present.
+
+The viewer supports previous/next navigation, direct thumbnail selection, slide numbers, and fullscreen. If the host does not allow the browser Fullscreen API, it uses an in-Canvas presentation mode instead.
+
+See [`presentation/ai-genius-s5e1`](./presentation/ai-genius-s5e1/README.md) for controls and slide update instructions.
+
+---
+
 ## Repo Structure
 
 ```
@@ -81,6 +97,8 @@ You are the **tech lead** in this workflow. Copilot handles the *how*. You defin
   ├── .github/
   │   ├── copilot-instructions.md      # Canonical Copilot context
   │   ├── copilot-instructions.ja.md   # Japanese contributor reference
+  │   ├── extensions/
+  │   │   └── ai-genius-presenter/     # GitHub Copilot App slide Canvas
   │   └── ISSUE_TEMPLATE/
   │       ├── feature-request.md       # English feature template
   │       └── feature-request-ja.md    # Japanese feature template
@@ -90,6 +108,8 @@ You are the **tech lead** in this workflow. Copilot handles the *how*. You defin
   │   ├── 03-review-a-pr/              # Task: review and comment on a PR
   │   ├── 04-iterate/                  # Task: iterate via PR comments
   │   └── 05-azure-and-ai/             # Stretch: pre-written issues for Azure + OpenAI features
+  ├── presentation/
+  │   └── ai-genius-s5e1/              # Slide manifest, images, and update guide
   └── starter-app/                     # Python CLI task manager to extend
       ├── app.py                       # CLI: add, list, complete, edit, delete, stats
       ├── requirements.txt             # click, rich, pytest
