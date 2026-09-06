@@ -19,6 +19,7 @@ Welcome! This is the hands-on workshop repo for **AI Genius Episode 1**. You'll 
 - How to review Copilot-generated PRs like a senior developer
 - How to iterate via PR comments instead of starting from scratch
 - Best practices for collaborating with AI throughout the coding process
+- In the optional exercise, how to review changes involving cloud SDKs and credentials with safety in mind
 
 ---
 
@@ -70,7 +71,7 @@ You are the **tech lead** in this workflow. Copilot handles the *how*. You defin
 
 4. **Open the GitHub Copilot App** and connect it to your forked repo.
 
-5. Work through the exercises in order, starting with [`exercises/01-write-an-issue`](./exercises/01-write-an-issue/README.md).
+5. Complete core Exercises 01–04 in order, starting with [`exercises/01-write-an-issue`](./exercises/01-write-an-issue/README.md). After completing the core workflow, optionally continue to [Optional Exercise 05](./exercises/05-azure-and-ai/README.md) for Azure and AI practice.
 
 ---
 
@@ -86,6 +87,22 @@ The repository includes a project Canvas extension that presents the AI Genius S
 The viewer supports previous/next navigation, direct thumbnail selection, slide numbers, and fullscreen. If the host does not allow the browser Fullscreen API, it uses an in-Canvas presentation mode instead.
 
 See [`presentation/ai-genius-s5e1`](./presentation/ai-genius-s5e1/README.md) for controls and slide update instructions.
+
+---
+
+## Exercise Flow
+
+| Track | Exercise | What you will learn |
+|---|---|---|
+| Core | [Exercise 01](./exercises/01-write-an-issue/README.md) | Write a problem statement, desired behavior, acceptance criteria, constraints, and Definition of Done that an agent can implement |
+| Core | [Exercise 02](./exercises/02-assign-to-copilot/README.md) | Delegate an issue to Copilot and observe its investigation, implementation, and testing |
+| Core | [Exercise 03](./exercises/03-review-a-pr/README.md) | Review a generated PR for correctness, quality, security, dependencies, and test effectiveness |
+| Core | [Exercise 04](./exercises/04-iterate/README.md) | Request improvements through precise PR comments, re-review the result, and merge manually |
+| Optional | [Optional Exercise 05](./exercises/05-azure-and-ai/README.md) | Extend the completed workflow to Azure Table Storage and Azure OpenAI scenarios |
+
+Completing Exercises 01–04 completes the workshop's core learning path. Optional Exercise 05 is an additional cloud-and-AI challenge for learners who want to continue.
+
+Exercise 01 includes Azure-based Options A and B. Choose Option C or D for a core path that does not require Azure access; Options A and B require an appropriate Azure environment and can be deferred to Optional Exercise 05.
 
 ---
 
@@ -107,7 +124,7 @@ See [`presentation/ai-genius-s5e1`](./presentation/ai-genius-s5e1/README.md) for
   │   ├── 02-assign-to-copilot/        # Task: assign + observe
   │   ├── 03-review-a-pr/              # Task: review and comment on a PR
   │   ├── 04-iterate/                  # Task: iterate via PR comments
-  │   └── 05-azure-and-ai/             # Stretch: pre-written issues for Azure + OpenAI features
+  │   └── 05-azure-and-ai/             # Optional: Azure + OpenAI extension
   ├── presentation/
   │   └── ai-genius-s5e1/              # Slide manifest, images, and update guide
   └── starter-app/                     # Python CLI task manager to extend

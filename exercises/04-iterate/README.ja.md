@@ -281,7 +281,7 @@ Issueを書く ─► Copilotへ割り当てる ─► PRをレビューする �
 
 ## 次に試すこと
 
-- [Exercise 05 -- Azure + AI：クラウドネイティブへの拡張](../05-azure-and-ai/README.ja.md)へ進む
+- Exercises 01〜04を完了し、クラウドとAIをさらに練習したい場合は、[オプション Exercise 05 -- Azure + AI：クラウドネイティブへの拡張](../05-azure-and-ai/README.ja.md)へ進む
 - [GitHub Copilot documentation](https://docs.github.com/en/copilot)を確認する
 - [Copilot CLI](https://docs.github.com/en/copilot/concepts/agents/copilot-cli/about-copilot-cli)を`copilot`で起動し、`Revert the last commit, leaving the changes unstaged.`と依頼する
 - 自分のプロジェクト向けに`copilot-instructions.md`を作成する

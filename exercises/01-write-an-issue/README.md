@@ -34,6 +34,9 @@ A well-formed issue for Copilot includes:
 2. Click **New issue** and choose the **Feature Request (English)** template.
 3. Write an issue for one of the following features:
 
+   > [!TIP]
+   > Options A and B lead to Azure-backed implementations and require an appropriate Azure environment to complete the later implementation and validation. If Azure is not available, choose Option C or D for the core workflow and revisit A or B in Optional Exercise 05.
+
    **Option A:** Migrate task storage to Azure Table Storage
    > The app currently stores tasks in a local JSON file. Migrate the storage layer to Azure Table Storage so tasks are persisted in the cloud. Use `azure-data-tables` and load credentials from environment variables. The CLI commands should work identically to today.
 
