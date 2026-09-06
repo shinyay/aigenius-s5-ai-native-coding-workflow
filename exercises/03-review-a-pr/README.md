@@ -75,6 +75,99 @@ Good comments are specific. Instead of:
 Try:
 > "Can you add input validation to the task name field? It should reject empty strings and names longer than 200 characters."
 
+### Copy-ready Option C review example
+
+The following example comes from a dry run of the Option C `search` implementation. Use it only after confirming that the generated PR has the same implementation and reproduces the same behavior. A review comment needs evidence from the actual diff, not just text copied from this guide.
+
+<details>
+<summary><strong>Reproduce the search/highlight mismatch</strong></summary>
+
+Check out the PR branch first, for example with `gh pr checkout <PR-number>`, then run this from `starter-app`. If the PR uses a different helper name or signature, adapt the snippet to the actual diff.
+
+```python
+import json
+import os
+from pathlib import Path
+from tempfile import TemporaryDirectory
+
+from click.testing import CliRunner
+
+import app
+from app import highlight_matches
+
+value = "Straße release"
+keyword = "STRASSE"
+os.environ["COLUMNS"] = "200"
+
+with TemporaryDirectory() as directory:
+    app.TASKS_FILE = Path(directory) / "tasks.json"
+    app.TASKS_FILE.write_text(
+        json.dumps(
+            [
+                {
+                    "id": 1,
+                    "name": value,
+                    "description": "",
+                    "priority": "high",
+                    "tags": [],
+                    "due_date": None,
+                    "done": False,
+                    "created_at": "2025-01-01T09:00:00",
+                }
+            ],
+            ensure_ascii=False,
+        ),
+        encoding="utf-8",
+    )
+    result = CliRunner().invoke(app.cli, ["search", keyword])
+    print("SEARCH_EXIT=", result.exit_code)
+    print("ROW_PRESENT=", value in result.output)
+    print("OUTPUT=", result.output)
+    print("EXCEPTION=", repr(result.exception))
+
+highlighted = highlight_matches(value, keyword)
+print("SPANS=", [(span.start, span.end, span.style) for span in highlighted.spans])
+```
+
+The observed result was `SEARCH_EXIT=0` and `ROW_PRESENT=True`, while `SPANS` was empty. The PR's search command accepted the task as a match, but its highlight helper found no matching range. This happens when search filtering uses `casefold()` but highlighting uses `re.IGNORECASE`, because they do not implement identical Unicode casing rules.
+
+</details>
+
+<details>
+<summary><strong>Inline review comment for the implementation</strong></summary>
+
+On the changed line that detects highlight matches, choose **Start a review** rather than **Add single comment**, then paste:
+
+```markdown
+The search filter uses `casefold()`, while highlight detection uses `re.IGNORECASE`, so they do not apply the same Unicode casing rules. I reproduced this with `value="Straße release"` and `keyword="STRASSE"`: the task matches the search, but `highlight_matches()` returns no style spans. The acceptance criteria require matching text to be highlighted. Please define one consistent case-insensitive matching contract for filtering and highlighting. You can either align both sides on a rule that does not treat `ß` as `ss`, or retain full case-fold matching and map folded ranges back to indices in the original string. In either case, every reported match must have correct original-string highlight spans, and a regression test should prove the filter and highlighter agree for this input.
+```
+
+</details>
+
+<details>
+<summary><strong>Optional inline comment for test quality</strong></summary>
+
+Use this only when the test searches for text that also appears in the task name:
+
+If a review is already pending, add this with **Add review comment** so it remains part of the same review.
+
+```markdown
+`test_search_matches_description_and_includes_done_tasks` searches for `unit`, but the fixture name is `Write unit tests` and its description is empty. This test can pass even if description matching is removed, so it does not independently verify the description-only acceptance criterion. Please add a dedicated task whose keyword appears only in the description, or add a separate description-only test. If this test must also cover completed tasks, make that dedicated task completed.
+```
+
+</details>
+
+<details>
+<summary><strong>Request changes review summary</strong></summary>
+
+After adding the inline comment, open **Review changes**, select **Request changes**, and use:
+
+```markdown
+Please define one consistent case-insensitive matching contract for search filtering and highlighting. Ensure every reported match has correct spans against the original text, and add a regression test proving the filter and highlighter agree for the Unicode input described in the inline comment.
+```
+
+</details>
+
 ---
 
 ## Reflection Questions

@@ -118,6 +118,99 @@ PRの説明にあるのは作業の要約であり、完全なセッションロ
 
 好みだけの指摘ではなく、Issue、既存規約、保守性、リスクのいずれかに結び付けてください。
 
+### Option Cのコピー用レビュー例
+
+次の例は、Option Cの`search`実装をドライランしたときに確認した内容です。生成されたPRが同じ実装で、同じ動作を再現できた場合だけ使用してください。ガイドの文章をそのまま貼り付けるのではなく、実際の差分と実行結果を根拠にレビューします。
+
+<details>
+<summary><strong>検索と強調の不一致を再現する</strong></summary>
+
+最初に`gh pr checkout <PR番号>`などでPRブランチをチェックアウトし、`starter-app`で次を実行します。PRの差分で関数名や引数が異なる場合は、実際の実装に合わせて変更してください。
+
+```python
+import json
+import os
+from pathlib import Path
+from tempfile import TemporaryDirectory
+
+from click.testing import CliRunner
+
+import app
+from app import highlight_matches
+
+value = "Straße release"
+keyword = "STRASSE"
+os.environ["COLUMNS"] = "200"
+
+with TemporaryDirectory() as directory:
+    app.TASKS_FILE = Path(directory) / "tasks.json"
+    app.TASKS_FILE.write_text(
+        json.dumps(
+            [
+                {
+                    "id": 1,
+                    "name": value,
+                    "description": "",
+                    "priority": "high",
+                    "tags": [],
+                    "due_date": None,
+                    "done": False,
+                    "created_at": "2025-01-01T09:00:00",
+                }
+            ],
+            ensure_ascii=False,
+        ),
+        encoding="utf-8",
+    )
+    result = CliRunner().invoke(app.cli, ["search", keyword])
+    print("SEARCH_EXIT=", result.exit_code)
+    print("ROW_PRESENT=", value in result.output)
+    print("OUTPUT=", result.output)
+    print("EXCEPTION=", repr(result.exception))
+
+highlighted = highlight_matches(value, keyword)
+print("SPANS=", [(span.start, span.end, span.style) for span in highlighted.spans])
+```
+
+ドライランでは`SEARCH_EXIT=0`、`ROW_PRESENT=True`でしたが、`SPANS`は空でした。PRの`search`コマンドはタスクを検索結果へ含めましたが、強調用の関数は一致範囲を検出できませんでした。検索判定が`casefold()`、強調位置の検出が`re.IGNORECASE`の場合、両者のUnicode大小文字規則が一致しないためです。
+
+</details>
+
+<details>
+<summary><strong>実装行へ追加するインラインコメント</strong></summary>
+
+強調位置を検出している変更行で、**Add single comment**ではなく**Start a review**を選び、次を貼り付けます。
+
+```markdown
+検索対象の判定は `casefold()` を使っていますが、強調位置の検出は `re.IGNORECASE` なので、両者のUnicode大小文字規則が一致しません。実行確認では `value="Straße release"`、`keyword="STRASSE"` は検索には一致しましたが、`highlight_matches()` のstyle spanは0件でした。検索対象になった文字列は必ず強調される受入条件に合わせ、検索と強調で一貫した大小文字比較の契約を定義してください。両方を`ß`と`ss`を同一視しない規則へ揃えるか、完全なcase foldingを維持してfold後の範囲を元の文字列の位置へ対応付ける方法が考えられます。いずれの場合も、検索結果として報告する一致には元の文字列を基準とした正しい強調spanを付け、この入力で検索と強調が一致することを回帰テストで確認してください。
+```
+
+</details>
+
+<details>
+<summary><strong>テスト品質に対する任意のインラインコメント</strong></summary>
+
+説明検索のテストで、検索語がタスク名にも含まれている場合だけ使用します。
+
+すでにレビューを開始している場合は、**Add review comment**で同じレビューへ追加します。
+
+```markdown
+`test_search_matches_description_and_includes_done_tasks`は`unit`を検索していますが、fixtureのタスク名は`Write unit tests`で、説明は空です。このテストは説明検索を削除しても成功できるため、「説明だけに一致する」という受入条件を単独では検証していません。検索語が説明だけに現れる専用タスク、または説明検索専用のテストを追加してください。同じテストで完了済みタスクも確認する場合は、その専用タスクを完了済みにしてください。
+```
+
+</details>
+
+<details>
+<summary><strong>Request changesのレビュー本文</strong></summary>
+
+インラインコメントを追加した後、**Review changes**を開いて**Request changes**を選択し、次を貼り付けます。
+
+```markdown
+検索と強調で一貫した大小文字比較の契約を定義してください。検索結果として報告するすべての一致へ元の文字列を基準とした正しいspanを付け、インラインコメントに記載したUnicode入力で検索と強調が一致することを回帰テストで確認してください。
+```
+
+</details>
+
 ---
 
 ## 振り返り
