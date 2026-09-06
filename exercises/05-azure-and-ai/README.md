@@ -1,6 +1,9 @@
-# Exercise 05 -- Azure + AI: The Cloud-Native Extension
+# Optional Exercise 05 -- Azure + AI: The Cloud-Native Extension
 
 English | [日本語](README.ja.md)
+
+> [!NOTE]
+> **This is an optional extension for learners who have completed Exercises 01–04.** Those four exercises complete the workshop's core AI-native development loop. Exercise 05 is not required to complete the workshop; use it when you want additional practice with cloud SDKs, external AI services, secrets, failure handling, and mocked tests. You may complete either option or both, depending on your goals and available Azure environment.
 
 ## Goal
 
@@ -34,7 +37,7 @@ When `AZURE_STORAGE_CONNECTION_STRING` is set, the app uses Azure Table Storage.
 
 ### Pre-Written Issue
 
-Use this as your Exercise 01 issue (Option A) or create a new issue with this content:
+If you already implemented Option A during Exercise 01, this option is complete; use Option 2 only if you want additional AI practice. Otherwise, if you choose Option 1, create a new issue with this content:
 
 ---
 
@@ -95,6 +98,8 @@ python app.py add "Renew SSL certificate"
 
 ### Pre-Written Issue
 
+If you already implemented Option B during Exercise 01, this option is complete; use Option 1 only if you want additional cloud practice. Otherwise, if you choose Option 2, create a new issue with this content:
+
 ---
 
 **Title:** Add Azure OpenAI smart tag suggestion to `add` command
@@ -141,23 +146,21 @@ Users often forget to tag tasks when adding them. We want to use Azure OpenAI to
 
 ---
 
-## Stretch Goal: Complete the Cloud + AI Extensions
+## Optional Stretch Goal: Complete the Cloud + AI Extensions
 
-Choose the path that matches the feature you implemented in Exercise 01:
+If you want to keep extending the app, choose a path based on the Exercise 01 option you completed:
 
 - If you completed Option A, continue with Option 2 (Azure OpenAI).
 - If you completed Option B, implement Option 1 (Azure Table Storage).
-- If you completed Option C or D, implement Option 1 first, then Option 2.
+- If you completed Option C or D, choose either Option 1 or Option 2. Complete both only if you want the full cloud-and-AI extension.
 
 For each remaining option, run the complete AI-native loop: write the issue, assign it to Copilot, review the PR, iterate through feedback, and merge according to your repository rules.
 
-By the end, you'll have an app that:
+If you complete both options, you'll have an app that:
 - Stores tasks in Azure Table Storage
 - Auto-categorises tasks with AI on creation
 - Has a full test suite with mocked cloud calls
 - Loads all credentials from environment variables
-
-That gives you a foundation for a cloud-backed, AI-assisted application — built through collaboration between you and Copilot.
 
 ---
 

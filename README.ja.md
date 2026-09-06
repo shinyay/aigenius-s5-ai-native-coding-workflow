@@ -21,7 +21,7 @@ AIに作業を任せても、設計や品質に対する責任まで手放すわ
 - IssueをCopilotへ割り当て、エージェントの作業内容を観察する
 - Copilotが生成したPRを、シニアエンジニアの視点でレビューする
 - 作り直しではなく、PRコメントを使って段階的に改善する
-- クラウドSDKや認証情報を含む変更を、安全性を意識してレビューする
+- オプション演習では、クラウドSDKや認証情報を含む変更を、安全性を意識してレビューする
 
 ---
 
@@ -82,7 +82,7 @@ Copilotは実装の速度を高めますが、何を作るべきか、変更を�
 
 4. GitHub Copilot Appを開き、Forkしたリポジトリを利用できる状態にします。
 
-5. [Exercise 01：実装につながるIssueを書く](./exercises/01-write-an-issue/README.ja.md)から順番に進めます。
+5. [Exercise 01：実装につながるIssueを書く](./exercises/01-write-an-issue/README.ja.md)から、コアのExercises 01〜04を順番に進めます。中核の開発ループを完了した後、希望する場合は[オプション Exercise 05](./exercises/05-azure-and-ai/README.ja.md)でAzureとAIの課題へ進みます。
 
 ---
 
@@ -103,13 +103,17 @@ Copilotは実装の速度を高めますが、何を作るべきか、変更を�
 
 ## 演習の流れ
 
-| 演習 | 学ぶこと |
-|---|---|
-| [Exercise 01](./exercises/01-write-an-issue/README.ja.md) | エージェントが実装できる粒度で、問題、期待する動作、受入条件を書く |
-| [Exercise 02](./exercises/02-assign-to-copilot/README.ja.md) | IssueをCopilotへ委譲し、エージェントの探索と実装を観察する |
-| [Exercise 03](./exercises/03-review-a-pr/README.ja.md) | 生成されたPRを正確性、品質、セキュリティ、テストの観点で確認する |
-| [Exercise 04](./exercises/04-iterate/README.ja.md) | 具体的なPRコメントで改善を依頼し、再レビューしてマージする |
-| [Exercise 05](./exercises/05-azure-and-ai/README.ja.md) | Azure Table StorageとAzure OpenAIを題材に、クラウドとAIの変更を安全に扱う |
+| 区分 | 演習 | 学ぶこと |
+|---|---|---|
+| コア | [Exercise 01](./exercises/01-write-an-issue/README.ja.md) | エージェントが実装できる問題、期待する動作、受入条件、制約、完了条件を書く |
+| コア | [Exercise 02](./exercises/02-assign-to-copilot/README.ja.md) | IssueをCopilotへ委譲し、エージェントの調査、実装、テストを観察する |
+| コア | [Exercise 03](./exercises/03-review-a-pr/README.ja.md) | 生成されたPRを正確性、品質、セキュリティ、依存関係、テストの有効性から確認する |
+| コア | [Exercise 04](./exercises/04-iterate/README.ja.md) | 具体的なPRコメントで改善を依頼し、再レビューして人間が手動マージする |
+| オプション | [オプション Exercise 05](./exercises/05-azure-and-ai/README.ja.md) | Azure Table StorageとAzure OpenAIを題材に、中核の開発ループをクラウドとAIへ拡張する |
+
+Exercises 01〜04を完了すると、ワークショップの中核学習は完了です。オプション Exercise 05は、さらにクラウドとAIの課題へ進みたい人向けの追加演習です。
+
+Exercise 01にはAzureを使用するOption AとBも含まれ、後続の実装には利用可能なAzure環境が必要です。Azure環境を必要としない中核学習を進める場合はOption CまたはDを選び、Option AとBはオプション Exercise 05まで保留できます。
 
 ---
 
@@ -131,7 +135,7 @@ aigenius-s5-ai-native-coding-workflow/
   │   ├── 02-assign-to-copilot/
   │   ├── 03-review-a-pr/
   │   ├── 04-iterate/
-  │   └── 05-azure-and-ai/
+  │   └── 05-azure-and-ai/         # オプション：Azure + OpenAI拡張
   ├── presentation/
   │   └── ai-genius-s5e1/
   └── starter-app/

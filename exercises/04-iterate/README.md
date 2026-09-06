@@ -284,7 +284,7 @@ That is AI-native development.
 
 ## What Next?
 
-- Continue to [Exercise 05 -- Azure + AI: The Cloud-Native Extension](../05-azure-and-ai/README.md)
+- If you completed Exercises 01–04 and want additional cloud-and-AI practice, continue to [Optional Exercise 05 -- Azure + AI: The Cloud-Native Extension](../05-azure-and-ai/README.md)
 - Explore the [GitHub Copilot documentation](https://docs.github.com/en/copilot)
 - Try the [Copilot CLI](https://docs.github.com/en/copilot/concepts/agents/copilot-cli/about-copilot-cli): run `copilot`, then ask `Revert the last commit, leaving the changes unstaged.`
 - Write a `copilot-instructions.md` for one of your own projects
