@@ -101,7 +101,7 @@ Copilotは実装の速度を高めますが、何を作るべきか、変更を�
 
 ## Copilot AppのDeveloper Experienceを読み解く
 
-[日本語HTML DXガイド](./presentation/copilot-app-dx/README.ja.md)では、伝えたい主題、6つのDeveloper Experienceの変化、製品の役割分担、採用判断につなげるレビューと反復の進め方を説明しています。単一ファイルのスクロール型Artifactで、既存スライドとは独立してローカルブラウザーや**Browser Canvas**で表示できます。
+[日英切り替え対応のHTML DXガイド](./presentation/copilot-app-dx/README.ja.md)では、伝えたい主題、6つのDeveloper Experienceの変化、製品の役割分担、採用判断につなげるレビューと反復の進め方を説明しています。**日本語 / English**で本文・図解・プロンプト・演習リンクを切り替えられます。単一ファイルのスクロール型Artifactで、既存スライドとは独立してローカルブラウザーや**Browser Canvas**で表示できます。
 
 ---
 
@@ -142,7 +142,7 @@ aigenius-s5-ai-native-coding-workflow/
   │   └── 05-azure-and-ai/         # オプション：Azure + OpenAI拡張
   ├── presentation/
   │   ├── ai-genius-s5e1/
-  │   └── copilot-app-dx/          # 日本語の自己完結HTML DXガイド
+  │   └── copilot-app-dx/          # 日英切り替え対応の自己完結HTML DXガイド
   └── starter-app/
       ├── app.py
       ├── requirements.txt

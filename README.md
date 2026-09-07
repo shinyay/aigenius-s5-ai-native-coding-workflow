@@ -90,7 +90,7 @@ See [`presentation/ai-genius-s5e1`](./presentation/ai-genius-s5e1/README.md) for
 
 ## Explore the Copilot App Developer Experience
 
-The [Japanese HTML DX guide](./presentation/copilot-app-dx/README.md) explains the central message, six changes in developer experience, product roles, and a review-and-iteration framework for making acceptance decisions. It is a self-contained, scroll-based artifact that can be opened locally or in a **Browser Canvas**, independently of the slide presenter.
+The [bilingual HTML DX guide](./presentation/copilot-app-dx/README.md) explains the central message, six changes in developer experience, product roles, and a review-and-iteration framework for making acceptance decisions. Use its **日本語 / English** toggle to switch the content, diagrams, prompts, and exercise links. It is a self-contained, scroll-based artifact that can be opened locally or in a **Browser Canvas**, independently of the slide presenter.
 
 ---
 
@@ -131,7 +131,7 @@ Exercise 01 includes Azure-based Options A and B. Choose Option C or D for a cor
   │   └── 05-azure-and-ai/             # Optional: Azure + OpenAI extension
   ├── presentation/
   │   ├── ai-genius-s5e1/              # Slide manifest, images, and update guide
-  │   └── copilot-app-dx/              # Self-contained Japanese HTML DX guide
+  │   └── copilot-app-dx/              # Self-contained Japanese/English HTML DX guide
   └── starter-app/                     # Python CLI task manager to extend
       ├── app.py                       # CLI: add, list, complete, edit, delete, stats
       ├── requirements.txt             # click, rich, pytest
