@@ -1,0 +1,966 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <meta name="description" content="GitHub Copilot Appで変わる開発者体験を、6つの価値とレビュー・反復の実践から読み解く日本語ガイド。">
+  <meta name="referrer" content="no-referrer">
+  <title>AIに任せる。判断は、手放さない。 | Copilot App DX Guide</title>
+  <script>
+    (() => {
+      const param = new URLSearchParams(window.location.search).get("scoutTheme");
+      const theme =
+        param || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+      document.documentElement.setAttribute("data-theme", theme);
+    })();
+  </script>
+  <style>
+    :root {
+      color-scheme: light;
+      --cp-bg: #f7f4ef;
+      --cp-bg-elevated: #fcfbf8;
+      --cp-surface: #ffffff;
+      --cp-surface-soft: #f5f5f5;
+      --cp-border: #dedede;
+      --cp-border-strong: #919191;
+      --cp-text: #242424;
+      --cp-text-muted: #5c5c5c;
+      --cp-text-soft: #6f6f6f;
+      --cp-accent: #b11f4b;
+      --cp-accent-hover: #9a1a41;
+      --cp-accent-soft: rgba(177, 31, 75, 0.08);
+      --cp-accent-fg: #ffffff;
+      --cp-success: #16a34a;
+      --cp-danger: #dc2626;
+      --cp-warning: #f59e0b;
+      --cp-link: #0078d4;
+      --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.12);
+      --cp-overlay: rgba(255, 255, 255, 0.8);
+      --cp-panel: rgba(255, 255, 255, 0.86);
+      --cp-panel-strong: rgba(255, 255, 255, 0.96);
+      --cp-sheen: rgba(255, 255, 255, 0.55);
+      --cp-highlight: rgba(177, 31, 75, 0.12);
+    }
+    html[data-theme="dark"] {
+      color-scheme: dark;
+      --cp-bg: #3d3b3a;
+      --cp-bg-elevated: #343231;
+      --cp-surface: #292929;
+      --cp-surface-soft: #2e2e2e;
+      --cp-border: #474747;
+      --cp-border-strong: #5f5f5f;
+      --cp-text: #dedede;
+      --cp-text-muted: #919191;
+      --cp-text-soft: #b0b0b0;
+      --cp-accent: #fd8ea1;
+      --cp-accent-hover: #fb7b91;
+      --cp-accent-soft: rgba(253, 142, 161, 0.14);
+      --cp-accent-fg: #1a1a1a;
+      --cp-success: #4ade80;
+      --cp-danger: #f87171;
+      --cp-warning: #fbbf24;
+      --cp-link: #4da6ff;
+      --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.32);
+      --cp-overlay: rgba(41, 41, 41, 0.88);
+      --cp-panel: rgba(41, 41, 41, 0.72);
+      --cp-panel-strong: rgba(41, 41, 41, 0.96);
+      --cp-sheen: rgba(255, 255, 255, 0.04);
+      --cp-highlight: rgba(253, 142, 161, 0.12);
+    }
+    :root {
+      --cp-card-shadow: 0 0 2px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.14);
+      --cp-print-bg: #ffffff;
+      --cp-print-text: #242424;
+      --cp-print-muted: #5c5c5c;
+      --cp-print-border: #dedede;
+      --cp-print-accent: #b11f4b;
+      --cp-print-link: #0078d4;
+    }
+    * { box-sizing: border-box; }
+    [hidden] { display: none !important; }
+    html { scroll-behavior: smooth; scroll-padding-top: 7rem; }
+    body {
+      margin: 0;
+      background: var(--cp-bg);
+      color: var(--cp-text);
+      font: 1rem/1.85 "Segoe UI", Aptos, Calibri, -apple-system, BlinkMacSystemFont, sans-serif;
+      overflow-wrap: anywhere;
+    }
+    button { font: inherit; }
+    a { color: var(--cp-link); text-underline-offset: 0.2em; }
+    a:hover { text-decoration-thickness: 2px; }
+    :focus-visible { outline: 3px solid var(--cp-accent); outline-offset: 4px; }
+    ::selection { background: var(--cp-highlight); color: var(--cp-text); }
+    h1, h2, h3, h4, p, ol, ul, dl, figure, blockquote { margin: 0; }
+    h1, h2, h3, h4 { line-height: 1.4; letter-spacing: -0.025em; }
+    p + p { margin-top: 1rem; }
+    code, pre, .mono {
+      font-family: Consolas, "Courier New", Courier, monospace;
+    }
+    code {
+      padding: 0.12rem 0.3rem;
+      border-radius: 4px;
+      background: var(--cp-surface-soft);
+      font-size: 0.9em;
+    }
+    pre {
+      padding: 1.25rem;
+      border: 1px solid var(--cp-border);
+      border-radius: 0.625rem;
+      background: var(--cp-surface-soft);
+      color: var(--cp-text);
+      font-size: 0.88rem;
+      line-height: 1.8;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+      tab-size: 2;
+    }
+    pre code { padding: 0; background: none; font-size: inherit; }
+    .skip-link {
+      position: fixed;
+      top: -6rem;
+      left: 1rem;
+      z-index: 100;
+      padding: 0.75rem 1rem;
+      background: var(--cp-surface);
+      color: var(--cp-text);
+      border: 1px solid var(--cp-border-strong);
+      border-radius: 0.625rem;
+    }
+    .skip-link:focus { top: 1rem; }
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: var(--cp-surface);
+      border-bottom: 1px solid var(--cp-border);
+    }
+    .topbar-inner {
+      max-width: 1440px;
+      min-height: 76px;
+      margin: 0 auto;
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.875rem;
+      color: var(--cp-text);
+      text-decoration: none;
+      line-height: 1.4;
+    }
+    .brand-mark {
+      width: 36px;
+      height: 36px;
+      flex: none;
+      color: var(--cp-text);
+    }
+    .brand-name { display: block; font-weight: 750; letter-spacing: -0.02em; }
+    .brand-subtitle { display: block; color: var(--cp-text-muted); font-size: 0.75rem; }
+    .top-actions { display: flex; align-items: center; gap: 0.5rem; flex-shrink: 0; }
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      min-height: 44px;
+      padding: 0.5rem 0.875rem;
+      border: 1px solid var(--cp-border-strong);
+      border-radius: 0.625rem;
+      color: var(--cp-text);
+      background: var(--cp-surface);
+      font-weight: 600;
+      font-size: 0.8125rem;
+      line-height: 1.5;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .button:hover { background: var(--cp-surface-soft); }
+    .button:disabled { cursor: wait; opacity: 0.7; }
+    .button-primary { border-color: var(--cp-accent); color: var(--cp-accent-fg); background: var(--cp-accent); }
+    .button-primary:hover { background: var(--cp-accent-hover); }
+    .shell { max-width: 1440px; margin: 0 auto; padding: 0 2rem; }
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.35fr) minmax(280px, 0.85fr);
+      gap: 4rem;
+      align-items: center;
+      padding: 5rem 0 4rem;
+      border-bottom: 1px solid var(--cp-border-strong);
+    }
+    .eyebrow {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.75rem;
+      color: var(--cp-text-muted);
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+    }
+    .eyebrow::before {
+      content: "";
+      width: 24px;
+      height: 2px;
+      background: var(--cp-accent);
+    }
+    h1 {
+      margin: 1.5rem 0;
+      font-size: clamp(2.5rem, 4.6vw, 4.5rem);
+      font-weight: 800;
+      line-height: 1.28;
+      letter-spacing: -0.055em;
+    }
+    h1 span { color: var(--cp-accent); }
+    .hero-lead { max-width: 42rem; font-size: 1.125rem; line-height: 1.95; }
+    .hero-caption { margin-top: 1rem; color: var(--cp-text-muted); font-size: 0.875rem; }
+    .hero-links { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1.75rem; }
+    .principle-card {
+      border: 1px solid var(--cp-border);
+      border-radius: 16px;
+      background: var(--cp-surface);
+      box-shadow: var(--cp-card-shadow);
+      overflow: hidden;
+    }
+    .panel-label {
+      display: flex;
+      justify-content: space-between;
+      gap: 0.75rem;
+      align-items: center;
+      padding: 1rem 1.5rem;
+      border-bottom: 1px solid var(--cp-border);
+      color: var(--cp-text-muted);
+      font: 0.75rem/1.5 Consolas, "Courier New", Courier, monospace;
+    }
+    .principle-row { padding: 1.5rem; }
+    .principle-row + .principle-row { border-top: 1px solid var(--cp-border); }
+    .principle-row dt { color: var(--cp-text-muted); font-size: 0.8rem; margin-bottom: 0.5rem; }
+    .principle-row dd { margin: 0; font-size: 1.2rem; font-weight: 700; }
+    .principle-row dd span { display: block; margin-top: 0.5rem; font-size: 0.85rem; font-weight: 400; color: var(--cp-text-muted); }
+    .principle-footer { background: var(--cp-accent-soft); padding: 1rem 1.5rem; font-size: 0.85rem; font-weight: 600; }
+    .page-grid { display: grid; grid-template-columns: 216px minmax(0, 1fr); gap: 3.5rem; align-items: start; padding-top: 2.5rem; }
+    .sidebar { position: sticky; top: 6.75rem; max-height: calc(100vh - 8rem); overflow-y: auto; }
+    .toc { border: 0; border-radius: 0; background: none; }
+    .toc summary { padding: 0.5rem 0 0.875rem; font-size: 0.75rem; letter-spacing: 0.06em; color: var(--cp-text-muted); }
+    .toc ol { list-style: none; padding: 0; }
+    .toc a {
+      display: flex;
+      gap: 0.75rem;
+      align-items: baseline;
+      padding: 0.75rem;
+      margin: 0.125rem 0;
+      border-radius: 0.625rem;
+      border-left: 2px solid var(--cp-border);
+      color: var(--cp-text-muted);
+      text-decoration: none;
+      font-size: 0.85rem;
+      line-height: 1.5;
+    }
+    .toc a:hover { background: var(--cp-surface-soft); color: var(--cp-text); }
+    .toc a[aria-current="location"] { color: var(--cp-accent); background: var(--cp-accent-soft); border-left-color: var(--cp-accent); font-weight: 700; }
+    .toc-number { font: 0.75rem/1.5 Consolas, "Courier New", Courier, monospace; }
+    .sidebar-note { font-size: 0.75rem; color: var(--cp-text-muted); margin: 1.5rem 0.75rem 0; line-height: 1.8; }
+    .reading-pane { min-width: 0; }
+    .chapter { padding: 1rem 0 3.5rem; margin-bottom: 2.5rem; border-bottom: 1px solid var(--cp-border); }
+    .chapter:last-child { margin-bottom: 0; }
+    .section-kicker { font-size: 0.75rem; color: var(--cp-accent); letter-spacing: 0.08em; font-weight: 700; text-transform: uppercase; }
+    h2 { font-size: clamp(1.7rem, 2.6vw, 2.4rem); margin: 0.625rem 0 1rem; font-weight: 750; }
+    .intro { font-size: 1.06rem; margin-bottom: 1.75rem; max-width: 52rem; }
+    .meta-row { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; margin-bottom: 1.25rem; }
+    .tag { display: inline-block; padding: 0.2rem 0.55rem; border: 1px solid var(--cp-border); border-radius: 0.625rem; font-size: 0.7rem; font-weight: 600; line-height: 1.6; color: var(--cp-text-muted); background: var(--cp-surface); }
+    .source-ref { font-size: 0.8rem; white-space: nowrap; }
+    .comparison { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.75rem; }
+    .comparison-card { border: 1px solid var(--cp-border); border-radius: 16px; padding: 1.5rem; background: var(--cp-surface); }
+    .comparison-card.is-next { border-top: 3px solid var(--cp-accent); }
+    .small-label { display: block; margin-bottom: 0.75rem; font-size: 0.7rem; color: var(--cp-text-muted); letter-spacing: 0.06em; font-weight: 700; text-transform: uppercase; }
+    .comparison-card h3 { font-size: 1.1rem; margin-bottom: 0.75rem; }
+    .comparison-card p { font-size: 0.9rem; }
+    .flow { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; list-style: none; padding: 0; }
+    .flow li { padding: 1.25rem; border: 1px solid var(--cp-border); border-radius: 0.625rem; background: var(--cp-bg-elevated); }
+    .flow strong { display: block; margin-bottom: 0.5rem; font-size: 1rem; }
+    .flow p { font-size: 0.8125rem; line-height: 1.8; }
+    .flow .mono { color: var(--cp-accent); font-size: 0.7rem; display: block; margin-bottom: 0.5rem; }
+    .callout { margin-top: 1.5rem; padding: 1.25rem 1.5rem; border: 1px solid var(--cp-border); background: var(--cp-bg-elevated); border-radius: 16px; }
+    .callout h3 { font-size: 1rem; margin-bottom: 0.5rem; }
+    .callout p { font-size: 0.875rem; }
+    .value-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+    .value-card { min-width: 0; padding: 1.75rem; border: 1px solid var(--cp-border); border-radius: 16px; background: var(--cp-surface); }
+    .value-top { display: flex; justify-content: space-between; align-items: center; gap: 1rem; margin-bottom: 1rem; }
+    .value-number { color: var(--cp-accent); font: 0.85rem/1.5 Consolas, "Courier New", Courier, monospace; }
+    .value-card h3 { font-size: 1.35rem; margin-bottom: 0.875rem; }
+    .value-statement { font-size: 0.95rem; font-weight: 600; margin-bottom: 1.25rem; }
+    .value-lens dt { margin-top: 0.875rem; color: var(--cp-text-muted); font-size: 0.72rem; font-weight: 700; }
+    .value-lens dd { margin: 0.25rem 0 0; font-size: 0.875rem; line-height: 1.9; }
+    .example { margin-top: 1.25rem; padding-top: 1rem; border-top: 1px solid var(--cp-border); font-size: 0.875rem; }
+    .example strong { display: block; margin-bottom: 0.375rem; font-size: 0.75rem; color: var(--cp-text-muted); }
+    details { margin-top: 1.25rem; border: 1px solid var(--cp-border); border-radius: 0.625rem; background: var(--cp-bg-elevated); }
+    summary { padding: 0.875rem 1rem; cursor: pointer; font-size: 0.8125rem; font-weight: 650; line-height: 1.7; }
+    summary::marker { color: var(--cp-accent); }
+    .details-body { padding: 0 1rem 1rem; font-size: 0.875rem; }
+    .details-body p { margin-top: 0.75rem; }
+    .details-body blockquote { font-weight: 600; line-height: 1.95; }
+    .details-body .button { margin-top: 0.875rem; }
+    .fine-print { color: var(--cp-text-muted); font-size: 0.8125rem; }
+    .mode-table-wrap, .role-table-wrap { width: 100%; overflow-x: auto; border: 1px solid var(--cp-border); border-radius: 0.625rem; margin-top: 1.5rem; background: var(--cp-surface); }
+    table { border-collapse: collapse; width: 100%; text-align: left; font-size: 0.85rem; line-height: 1.85; }
+    th, td { padding: 1rem; vertical-align: top; border-bottom: 1px solid var(--cp-border); }
+    thead th { background: var(--cp-surface-soft); font-size: 0.75rem; color: var(--cp-text-muted); font-weight: 700; }
+    tbody th { width: 22%; font-weight: 700; }
+    tbody tr:last-child > * { border-bottom: 0; }
+    .role-table { min-width: 540px; }
+    .note { color: var(--cp-text-muted); font-size: 0.875rem; margin-top: 1rem; }
+    .boundary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .boundary { padding: 1.25rem; border: 1px solid var(--cp-border); border-radius: 0.625rem; background: var(--cp-bg-elevated); }
+    .boundary h3 { font-size: 1rem; margin-bottom: 0.5rem; }
+    .boundary p { font-size: 0.875rem; }
+    .persona-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+    .persona { padding: 1.25rem; background: var(--cp-surface); border: 1px solid var(--cp-border); border-radius: 16px; }
+    .persona h3 { font-size: 1rem; margin-bottom: 0.75rem; }
+    .persona p { font-size: 0.875rem; }
+    .persona strong { color: var(--cp-accent); }
+    .subheading { margin: 2rem 0 1rem; font-size: 1.25rem; }
+    .practice-list { list-style: none; padding: 0; border-top: 1px solid var(--cp-border); }
+    .practice-list li { display: flex; gap: 1rem; padding: 1.125rem 0; border-bottom: 1px solid var(--cp-border); }
+    .practice-list .mono { color: var(--cp-accent); font-size: 0.8rem; padding-top: 0.25rem; }
+    .practice-list strong { display: block; font-size: 0.95rem; }
+    .practice-list p { font-size: 0.875rem; color: var(--cp-text-muted); margin-top: 0.25rem; }
+    .prompt-block + .prompt-block { border-top: 1px solid var(--cp-border); margin-top: 1.5rem; padding-top: 1.5rem; }
+    .prompt-block h4 { font-size: 0.875rem; margin-bottom: 0.75rem; }
+    .exercise-links { display: flex; flex-wrap: wrap; gap: 0.625rem; margin: 1rem 0; }
+    .closing { margin-top: 1.5rem; font-weight: 700; font-size: 1.2rem; line-height: 1.9; }
+    .sources { list-style: none; padding: 0; display: grid; gap: 0.75rem; }
+    .sources li { padding: 1rem 1.25rem; border: 1px solid var(--cp-border); border-radius: 0.625rem; background: var(--cp-surface); }
+    .sources a { font-size: 0.875rem; font-weight: 650; }
+    .sources p { font-size: 0.8rem; color: var(--cp-text-muted); margin-top: 0.25rem; }
+    .sources .mono { display: inline-block; margin-right: 0.5rem; color: var(--cp-accent); font-size: 0.75rem; }
+    footer { max-width: 1440px; margin: 0 auto; padding: 2rem; color: var(--cp-text-muted); font-size: 0.75rem; display: flex; justify-content: space-between; gap: 1rem; }
+    .status-message {
+      position: fixed;
+      bottom: 1rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 30;
+      width: max-content;
+      max-width: calc(100% - 2rem);
+      padding: 0.875rem 1.25rem;
+      border: 1px solid var(--cp-border-strong);
+      border-radius: 0.625rem;
+      background: var(--cp-surface);
+      color: var(--cp-text);
+      box-shadow: var(--cp-card-shadow);
+      font-size: 0.875rem;
+    }
+    .status-message:empty { display: none; }
+    html[data-theme="dark"] :is(.eyebrow, .hero-caption, .sidebar-note, .note, .practice-list p, footer, .toc summary) {
+      color: var(--cp-text-soft);
+    }
+    html[data-theme="dark"] .toc a:not([aria-current="location"]) { color: var(--cp-text-soft); }
+    @media (max-width: 1099px) {
+      .hero { gap: 2rem; padding-top: 3.5rem; }
+      .page-grid { grid-template-columns: minmax(0, 1fr); gap: 1.5rem; padding-top: 1.5rem; }
+      .sidebar { top: 76px; z-index: 10; max-height: calc(100dvh - 90px); background: var(--cp-bg); padding: 0.5rem 0; }
+      .toc { border: 1px solid var(--cp-border); border-radius: 0.625rem; background: var(--cp-surface); }
+      .toc summary { padding: 0.75rem 1rem; }
+      .toc ol { padding: 0 0.75rem 0.75rem; display: grid; grid-template-columns: 1fr 1fr; }
+      .sidebar-note { display: none; }
+      html { scroll-padding-top: 10rem; }
+    }
+    @media (max-width: 759px) {
+      .shell { padding: 0 1.25rem; }
+      .topbar-inner { padding: 0.75rem 1.25rem; min-height: 72px; }
+      .brand-mark { width: 28px; height: 28px; }
+      .brand-subtitle { font-size: 0.68rem; }
+      .top-actions .print-button { display: none; }
+      .hero { grid-template-columns: 1fr; padding: 2.75rem 0 2.5rem; gap: 2rem; }
+      h1 { font-size: clamp(2.15rem, 7.5vw, 3.5rem); }
+      .hero-lead { font-size: 1rem; }
+      .principle-card dl { display: grid; grid-template-columns: 1fr 1fr; }
+      .principle-row + .principle-row { border-top: 0; border-left: 1px solid var(--cp-border); }
+      .principle-row { padding: 1rem; }
+      .principle-row dd { font-size: 1rem; }
+      .sidebar { top: 72px; }
+      .value-grid, .boundary-grid, .persona-grid { grid-template-columns: 1fr; }
+      .comparison { grid-template-columns: 1fr; }
+      .flow { grid-template-columns: 1fr 1fr; }
+      .value-card { padding: 1.5rem; }
+      footer { flex-direction: column; padding: 1.5rem 1.25rem; }
+    }
+    @media (max-width: 399px) {
+      .brand-subtitle { display: none; }
+      .toc ol { grid-template-columns: 1fr; }
+      .flow { grid-template-columns: 1fr; }
+      .principle-card dl { grid-template-columns: 1fr; }
+      .principle-row + .principle-row { border-left: 0; border-top: 1px solid var(--cp-border); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+    }
+    @media print {
+      html[data-theme] {
+        color-scheme: light;
+        --cp-bg: var(--cp-print-bg);
+        --cp-bg-elevated: var(--cp-print-bg);
+        --cp-surface: var(--cp-print-bg);
+        --cp-surface-soft: var(--cp-print-bg);
+        --cp-text: var(--cp-print-text);
+        --cp-text-muted: var(--cp-print-muted);
+        --cp-text-soft: var(--cp-print-muted);
+        --cp-border: var(--cp-print-border);
+        --cp-border-strong: var(--cp-print-muted);
+        --cp-accent: var(--cp-print-accent);
+        --cp-link: var(--cp-print-link);
+      }
+      body { font-size: 10pt; }
+      .topbar, .sidebar, .skip-link, .button, .hero-links, .status-message { display: none !important; }
+      .shell { max-width: none; padding: 0; }
+      .hero { padding-top: 0; gap: 1.5rem; }
+      h1 { font-size: 30pt; }
+      h2 { font-size: 20pt; }
+      .page-grid { display: block; }
+      .chapter { padding-bottom: 1.5rem; margin-bottom: 1.5rem; }
+      .value-grid, .persona-grid, .boundary-grid { display: block; }
+      .value-card, .persona, .boundary { margin-bottom: 1rem; break-inside: avoid; }
+      .principle-card { box-shadow: none; }
+      .role-table-wrap { overflow: visible; }
+      .role-table { min-width: 0; }
+      details { break-inside: avoid; }
+      details::details-content { display: block; content-visibility: visible; }
+      details > .details-body { display: block; }
+      footer { padding: 1rem 0; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#thesis">本文へスキップ</a>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="#thesis" aria-label="AI Genius DXガイドの先頭へ">
+        <svg class="brand-mark" viewBox="0 0 36 36" fill="none" aria-hidden="true">
+          <path d="M10 10v16m0-8h9a7 7 0 0 0 7-7V9" stroke="var(--cp-text)" stroke-width="2"></path>
+          <circle cx="10" cy="7" r="3" stroke="var(--cp-text)" stroke-width="2"></circle>
+          <circle cx="10" cy="29" r="3" stroke="var(--cp-text)" stroke-width="2"></circle>
+          <circle cx="26" cy="6" r="3" stroke="var(--cp-accent)" stroke-width="2"></circle>
+        </svg>
+        <span>
+          <span class="brand-name">AI Genius / DX Guide</span>
+          <span class="brand-subtitle">GitHub Copilot Appで変わる、仕事の進め方</span>
+        </span>
+      </a>
+      <div class="top-actions">
+        <button class="button" id="theme-toggle" type="button" hidden>テーマ切替</button>
+        <button class="button print-button" id="print-button" type="button" hidden>印刷</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="shell">
+    <section class="hero" id="thesis" aria-labelledby="page-title" data-chapter>
+      <div>
+        <div class="eyebrow">01 / The central idea <span>GitHub Copilot App</span></div>
+        <h1 id="page-title">AIに任せる。<br>判断は、<span>手放さない。</span></h1>
+        <p class="hero-lead">速くコードを書く、その先へ。<br>仕事を渡し、根拠を見て、完成へ導く。<br><strong>Copilot Appは、人間とAIがその一連の作業を進めるための空間です。</strong></p>
+        <p class="hero-caption">Developer Experience（DX）とは、開発者が仕事を進めるときの体験。<br>この資料では、機能の数ではなく「仕事の何が変わるか」を読み解きます。</p>
+        <div class="hero-links">
+          <a class="button button-primary" href="#values">6つの価値を読む</a>
+          <a class="button" href="#review">レビューの判断軸を見る</a>
+        </div>
+      </div>
+      <div class="principle-card" aria-label="人間とAIの役割">
+        <div class="panel-label"><span>THE WORKING AGREEMENT</span><span>HUMAN + AGENT</span></div>
+        <dl>
+          <div class="principle-row">
+            <dt>人間が持ち続けるもの</dt>
+            <dd>目的 · 品質基準 · 採用判断<span>何を、なぜ作り、何をもって完成とするか。</span></dd>
+          </div>
+          <div class="principle-row">
+            <dt>AIへ委譲できる作業</dt>
+            <dd>調査 · 実装 · テスト · 修正<span>決めた範囲の作業を、確認できる成果へ。</span></dd>
+          </div>
+        </dl>
+        <p class="principle-footer">任せることと、責任を手放すことは違います。</p>
+      </div>
+    </section>
+
+    <div class="page-grid">
+      <aside class="sidebar" aria-label="章ナビゲーション">
+        <details class="toc" id="toc" open>
+          <summary>CONTENTS / 全8章</summary>
+          <nav aria-label="目次">
+            <ol>
+              <li><a href="#thesis"><span class="toc-number">01</span>伝えたい主題</a></li>
+              <li><a href="#workflow"><span class="toc-number">02</span>仕事の単位が変わる</a></li>
+              <li><a href="#values"><span class="toc-number">03</span>Appの6つの価値</a></li>
+              <li><a href="#roles"><span class="toc-number">04</span>製品の役割を分ける</a></li>
+              <li><a href="#review"><span class="toc-number">05</span>レビューと反復</a></li>
+              <li><a href="#boundaries"><span class="toc-number">06</span>誤解しないための境界</a></li>
+              <li><a href="#practice"><span class="toc-number">07</span>明日からの実践</a></li>
+              <li><a href="#sources"><span class="toc-number">08</span>出典と読み方</a></li>
+            </ol>
+          </nav>
+        </details>
+        <p class="sidebar-note">これは機能カタログではなく、<br>ひとつの仕事を完成へ導く<br>ワークショップの解説資料です。</p>
+      </aside>
+
+      <div class="reading-pane">
+        <section class="chapter" id="workflow" aria-labelledby="workflow-title" data-chapter>
+          <p class="section-kicker">02 / From code to work</p>
+          <h2 id="workflow-title">渡すのは、コードの穴埋めではなく<br>「判定できる仕事」。</h2>
+          <p class="intro">補完は、書いているコードを助けます。エージェントへの委譲では、解くべき問題と完成条件を渡し、変更のまとまりを受け取ります。人間の仕事がなくなるのではなく、<strong>判断する場所が、入力の途中から仕事の前後へ広がります。</strong></p>
+          <div class="meta-row"><span class="tag">使い方の比較</span><a class="source-ref" href="#source-app">出典 [1]</a><a class="source-ref" href="#source-cloud">[5]</a></div>
+          <div class="comparison">
+            <article class="comparison-card">
+              <span class="small-label">コード補完を中心に使う</span>
+              <h3>「この続きを書いて」</h3>
+              <p>行や関数を単位に、候補を受け取りながら自分で実装を進める。すぐに編集したい場面に向いています。</p>
+            </article>
+            <article class="comparison-card is-next">
+              <span class="small-label">タスクを委譲して使う</span>
+              <h3>「この条件を満たす変更を作って」</h3>
+              <p>目的・範囲・受入条件を渡し、差分や実行記録を受け取る。人間は結果を評価し、必要な修正を依頼します。</p>
+            </article>
+          </div>
+          <p class="note">これは「IDEにはできない」という比較ではありません。IDEにもエージェント機能があります。同じ開発者が、仕事の段階に応じて適した使い方を選びます。</p>
+          <h3 class="subheading">ひとつの仕事を、6つの段階で追う</h3>
+          <ol class="flow" aria-label="AIネイティブな開発ループ">
+            <li><span class="mono">01 / DEFINE</span><strong>Issueで定義</strong><p>人間：問題、期待する動作、受入条件、制約、完了条件を決める。</p></li>
+            <li><span class="mono">02 / DELEGATE</span><strong>作業を委譲</strong><p>人間：対象リポジトリと実行範囲を選び、エージェントへ渡す。</p></li>
+            <li><span class="mono">03 / EXECUTE</span><strong>調査・実装・テスト</strong><p>AI：既存コードを調べ、変更案と確認に使える成果物を作る。</p></li>
+            <li><span class="mono">04 / INSPECT</span><strong>根拠を読む</strong><p>人間：Issue、差分、実行記録、テスト結果を対応付ける。</p></li>
+            <li><span class="mono">05 / ITERATE</span><strong>修正を重ねる</strong><p>人間：事実・期待・確認方法を伝える。AI：同じPRを更新する。</p></li>
+            <li><span class="mono">06 / ACCEPT</span><strong>変更を採用</strong><p>人間：要件とルールを満たした変更を、このワークショップでは手動マージする。</p></li>
+          </ol>
+          <div class="callout">
+            <h3>画面を切り替えるたび、3つの問いに戻る</h3>
+            <p><strong>今の目的は何か。誰の作業か。何がそろえば次へ進めるか。</strong>ボタン名を覚える前に、作業の意味を追うと迷いにくくなります。</p>
+          </div>
+        </section>
+
+        <section class="chapter" id="values" aria-labelledby="values-title" data-chapter>
+          <p class="section-kicker">03 / Six shifts in developer experience</p>
+          <h2 id="values-title">Copilot Appで、何が変わるのか。</h2>
+          <p class="intro">Appの価値は、チャットやターミナルが同じ画面にあることだけではありません。<strong>仕事の文脈を保ちながら、任せ方を選び、成果を見て、次の判断へ進めること</strong>にあります。</p>
+          <div class="value-grid">
+            <article class="value-card" id="value-task">
+              <div class="value-top"><span class="value-number">VALUE / 01</span><a class="source-ref" href="#source-work">公式仕様 [4]</a></div>
+              <h3>ファイル中心から、<br>タスク中心へ。</h3>
+              <p class="value-statement">「何を編集しているか」だけでなく、「何のための仕事か」を見失わない。</p>
+              <dl class="value-lens">
+                <dt>これまでの困りごと</dt><dd>Issue、ターミナル、差分、PRを行き来して、今の作業がどの依頼につながるか探し直す。</dd>
+                <dt>体験の変化</dt><dd>My workでIssueやPRを見つけ、Sessionsで個別の作業を進め、ChangesやPRで成果を判断する。1件を最後まで追うときにも意味があります。</dd>
+              </dl>
+              <p class="example"><strong>ワークショップの題材</strong>「タスク名や説明をキーワード検索したい」という目的を、Issue作成からレビュー、マージまで一貫して追います。</p>
+              <details>
+                <summary>話す一言と、誤解させない補足</summary>
+                <div class="details-body">
+                  <blockquote id="quote-task">この変更は、何の仕事で、今どこまで進み、誰の判断を待っているのか。Appは、そのつながりを追う入口になります。</blockquote>
+                  <button class="button" type="button" data-copy="quote-task" hidden>この一言をコピー</button>
+                  <p class="fine-print">My workとSessionsは役割が異なります。「すべての履歴と情報がひとつの欄にある」とは説明しません。</p>
+                </div>
+              </details>
+            </article>
+
+            <article class="value-card" id="value-control">
+              <div class="value-top"><span class="value-number">VALUE / 02</span><a class="source-ref" href="#source-sessions">公式仕様 [2]</a></div>
+              <h3>任せる量を、<br>仕事に合わせて選ぶ。</h3>
+              <p class="value-statement">全部自動か、全部手動か。その二択にしない。</p>
+              <dl class="value-lens">
+                <dt>これまでの困りごと</dt><dd>曖昧な依頼をそのまま実装させて手戻りするか、すべての操作を逐次指示してしまう。</dd>
+                <dt>体験の変化</dt><dd>Planで範囲と方針を合意し、Interactiveで判断を挟み、定義が十分な仕事はAutopilotへ任せる。モードを作業の段階に合わせます。</dd>
+              </dl>
+              <p class="example"><strong>ワークショップの題材</strong>教材を変更する前に、対象ファイル・日本語対応・表示の仕方を決めてから実装へ進みます。</p>
+              <details>
+                <summary>話す一言と、誤解させない補足</summary>
+                <div class="details-body">
+                  <blockquote id="quote-control">任せるかどうかを一度決めるのではありません。仕事の不確実性に合わせて、任せ方を選びます。</blockquote>
+                  <button class="button" type="button" data-copy="quote-control" hidden>この一言をコピー</button>
+                  <p class="fine-print">モードが変えるのは協働の進め方です。アクセス権限や本番環境への接続可否を、自動的に安全にする設定ではありません。</p>
+                </div>
+              </details>
+            </article>
+
+            <article class="value-card" id="value-async">
+              <div class="value-top"><span class="value-number">VALUE / 03</span><a class="source-ref" href="#source-cloud">公式仕様 [5]</a></div>
+              <h3>待つ時間を、<br>理解する時間へ。</h3>
+              <p class="value-statement">実装を委ねている間、人間は結果を評価する準備を進められる。</p>
+              <dl class="value-lens">
+                <dt>これまでの困りごと</dt><dd>AIの生成を見張り続けるか、成果が出てから初めてコードを理解し始める。</dd>
+                <dt>体験の変化</dt><dd>cloud agentの作業を背景で進めながら、既存コードや受入条件を確認する。独立したセッションを並行して扱う構成にも広げられます。</dd>
+              </dl>
+              <p class="example"><strong>ワークショップの題材</strong>Codespacesで<code>list_tasks()</code>を読み、CLIで既存テストと<code>stats</code>の処理経路を調べます。</p>
+              <details>
+                <summary>話す一言と、誤解させない補足</summary>
+                <div class="details-body">
+                  <blockquote id="quote-async">AIを待つ間に忙しくするのではなく、成果を受け取ったときに判断できる準備をします。</blockquote>
+                  <button class="button" type="button" data-copy="quote-async" hidden>この一言をコピー</button>
+                  <p class="fine-print">非同期実行は、自動的な時間短縮を保証しません。並行数は、人間が結果を理解し、レビューできる量に合わせます。</p>
+                </div>
+              </details>
+            </article>
+
+            <article class="value-card" id="value-isolation">
+              <div class="value-top"><span class="value-number">VALUE / 04</span><a class="source-ref" href="#source-sessions">公式仕様 [2]</a></div>
+              <h3>試すことと、<br>採用することを分ける。</h3>
+              <p class="value-statement">まず変更案を作り、内容を見てから取り込む。</p>
+              <dl class="value-lens">
+                <dt>これまでの困りごと</dt><dd>別の案を試したいが、進行中の作業や安定したコードを巻き込みたくない。</dd>
+                <dt>体験の変化</dt><dd>新しいworktreeを選ぶと、ブランチごとの作業ディレクトリで変更案を進められます。採用は差分の確認後に判断します。</dd>
+              </dl>
+              <p class="example"><strong>ワークショップの題材</strong>変更案をPRとして受け取り、差分とテストを確認してから採用します。worktreeは作業を分ける手段であり、本番環境を自動的に隔離する仕組みではありません。</p>
+              <details>
+                <summary>話す一言と、誤解させない補足</summary>
+                <div class="details-body">
+                  <blockquote id="quote-isolation">AIに試してもらうことと、その変更を採用することを分ける。試行の負担を下げつつ、採用の判断は残します。</blockquote>
+                  <button class="button" type="button" data-copy="quote-isolation" hidden>この一言をコピー</button>
+                  <p class="fine-print">worktreeはセキュリティsandboxではありません。共有ポート、認証情報、外部サービス、統合時の競合は別途管理が必要です。</p>
+                </div>
+              </details>
+            </article>
+
+            <article class="value-card" id="value-canvas">
+              <div class="value-top"><span class="value-number">VALUE / 05</span><a class="source-ref" href="#source-canvas">公式仕様 [3]</a></div>
+              <h3>会話だけでなく、<br>同じ成果物で協働する。</h3>
+              <p class="value-statement">説明を読むだけでなく、見える作業面で確認し、操作する。</p>
+              <dl class="value-lens">
+                <dt>これまでの困りごと</dt><dd>「修正しました」という返答だけでは、成果物がどう変わったか分からない。</dd>
+                <dt>体験の変化</dt><dd>Canvasは人間とエージェントの共有作業面です。文書、ブラウザー、ボードなど、仕事に合う形で進捗や結果を扱えます。</dd>
+              </dl>
+              <p class="example"><strong>ワークショップの題材</strong>AI Genius Slide Presenterは、このリポジトリ独自のProject Canvas extension。人間のボタン操作とエージェントの操作でスライドを進められます。</p>
+              <details>
+                <summary>話す一言と、誤解させない補足</summary>
+                <div class="details-body">
+                  <blockquote id="quote-canvas">画面は、人間だけが見るものではなくなります。仕事に合う成果物を、人間とAIが扱う共通の作業面にできます。</blockquote>
+                  <button class="button" type="button" data-copy="quote-canvas" hidden>この一言をコピー</button>
+                  <p class="fine-print">Slide Presenterは標準搭載機能ではなく、この教材の拡張です。このHTMLはBrowser Canvasで閲覧する解説ページであり、新しいCanvas extensionやリアルタイムの作業監視画面ではありません。</p>
+                </div>
+              </details>
+            </article>
+
+            <article class="value-card" id="value-learning">
+              <div class="value-top"><span class="value-number">VALUE / 06</span><a class="source-ref" href="#source-exercises">ワークショップ教材 [7]</a></div>
+              <h3>個人の試行錯誤を、<br>次の人の使いやすさへ。</h3>
+              <p class="value-statement">うまく進めた方法を、チャット履歴だけで終わらせない。</p>
+              <dl class="value-lens">
+                <dt>これまでの困りごと</dt><dd>よいプロンプトや操作のコツが個人に閉じ、次の人が同じところで迷う。</dd>
+                <dt>体験の変化</dt><dd>指示ファイル、Issueテンプレート、回帰テスト、操作手順へ学びを戻す。バージョン管理された共通の前提を育てます。</dd>
+              </dl>
+              <p class="example"><strong>ワークショップの題材</strong>Issue記入例、個別に実行するプロンプト、返信・thread解決・マージの手順を、再利用できる教材として管理します。</p>
+              <details>
+                <summary>話す一言と、誤解させない補足</summary>
+                <div class="details-body">
+                  <blockquote id="quote-learning">今日の試行錯誤を、次の人の初期状態にする。AIとの協働も、リポジトリで育てるチームの資産です。</blockquote>
+                  <button class="button" type="button" data-copy="quote-learning" hidden>この一言をコピー</button>
+                  <p class="fine-print">これはモデルが自動学習したという話ではありません。人間が知識を整理し、レビューして共有した成果です。</p>
+                </div>
+              </details>
+            </article>
+          </div>
+          <h3 class="subheading">モードは、仕事の不確実性に合わせる</h3>
+          <div class="mode-table-wrap" tabindex="0" role="region" aria-label="セッションモードの比較">
+            <table>
+              <thead><tr><th scope="col">モード</th><th scope="col">向いている場面</th><th scope="col">人間が見ること</th></tr></thead>
+              <tbody>
+                <tr><th scope="row">Plan</th><td>変更範囲や影響がまだ曖昧</td><td>方針、対象、リスク、完了条件。実装の前に合意する。</td></tr>
+                <tr><th scope="row">Interactive</th><td>結果を見て仕様を詰めたい</td><td>曖昧な判断、次の一手、途中の差分。</td></tr>
+                <tr><th scope="row">Autopilot</th><td>目的と境界が十分に決まっている</td><td>自律的に進めた結果と根拠。モードを選んでも採否の確認は残す。</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="chapter" id="roles" aria-labelledby="roles-title" data-chapter>
+          <p class="section-kicker">04 / One task, different surfaces</p>
+          <h2 id="roles-title">Appと実行役を、混同しない。</h2>
+          <p class="intro">ワークショップのデモは複数の製品面を使います。すべてを「Appの機能」と呼ぶのではなく、<strong>同じ仕事を、適した作業面で進める</strong>と説明すると理解しやすくなります。</p>
+          <div class="meta-row"><span class="tag">公式仕様の整理</span><a class="source-ref" href="#source-app">出典 [1]</a><a class="source-ref" href="#source-work">[4]</a><a class="source-ref" href="#source-cloud">[5]</a></div>
+          <div class="role-table-wrap" tabindex="0" role="region" aria-label="製品の役割分担。狭い画面では表を横スクロールできます">
+            <table class="role-table">
+              <thead><tr><th scope="col">要素</th><th scope="col">役割</th><th scope="col">ワークショップでの使い方・位置付け</th></tr></thead>
+              <tbody>
+                <tr><th scope="row">Copilot App</th><td>エージェントとの仕事を進めるデスクトップの作業空間</td><td>タスク・セッション・計画・差分・Canvasを扱う入口。Copilot CLIを基盤とします。</td></tr>
+                <tr><th scope="row">Copilot cloud agent</th><td>クラウドで作業する実行役</td><td>Issueから実装・テスト・PR更新を進める実行役として使用します。Appのローカルセッションとは実行場所が異なります。</td></tr>
+                <tr><th scope="row">Codespaces</th><td>人間も使えるクラウド開発環境</td><td>コード理解とCLI操作に使用します。必要なら実行・デバッグも行う場所です。</td></tr>
+                <tr><th scope="row">Copilot Chat</th><td>コードや問題を対話的に理解する</td><td><code>list_tasks()</code>の選択範囲、保存処理、新規フィールドの影響範囲を説明してもらいます。</td></tr>
+                <tr><th scope="row">Copilot CLI</th><td>ターミナルで作業を依頼する</td><td>既存テストを実行し、<code>stats</code>の処理経路を確認します。</td></tr>
+                <tr><th scope="row">github.comのPR画面</th><td>チームのレビューとリポジトリルールに基づく採用</td><td>インラインコメント、修正の確認、thread解決、教材で定めた手動マージを行います。</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="callout">
+            <h3>「Appだけあれば、ほかは不要」とは伝えない</h3>
+            <p>Browser Canvasでgithub.comを表示できることと、そのWeb機能がAppネイティブであることは別です。認証や表示は作業面ごとに確認します。価値は画面遷移の完全なゼロ化ではなく、仕事の文脈を追いやすくすることです。</p>
+          </div>
+        </section>
+
+        <section class="chapter" id="review" aria-labelledby="review-title" data-chapter>
+          <p class="section-kicker">05 / Review, iterate, accept</p>
+          <h2 id="review-title">「全部緑」を、<br>完成の根拠にしない。</h2>
+          <p class="intro">テストの成功は重要な根拠です。ただし、それだけでIssueの期待動作、境界値、変更してはいけない性質まで確認できたとは限りません。AIへ実装を委譲しても、<strong>成果を受入条件と照合し、完成へ導く判断</strong>は人間が持ち続けます。</p>
+          <div class="meta-row"><span class="tag">レビューの判断軸</span><a class="source-ref" href="#source-review">Exercise 03 [8]</a><a class="source-ref" href="#source-iterate">Exercise 04 [9]</a></div>
+          <div class="callout">
+            <h3>レビューは、AIの失敗を探す作業ではない</h3>
+            <p>目的は、Issueで約束した価値と、コード・テスト・実行結果が対応しているかを確かめることです。問題があれば、責任追及ではなく、次の修正を判断できる具体的な根拠へ変えます。</p>
+          </div>
+          <h3 class="subheading">4つの問いでPRを読む</h3>
+          <ol class="practice-list">
+            <li><span class="mono">01</span><div><strong>受入条件を、1項目ずつ確認できるか</strong><p>PR説明の要約だけでなく、Issueに書いた期待動作と実際の差分・テストを対応付けます。</p></div></li>
+            <li><span class="mono">02</span><div><strong>通常の例以外に、どの入力で判断するか</strong><p>空入力、無効な値、境界値、Unicode、既存データなど、仕様に関係する端を選びます。</p></div></li>
+            <li><span class="mono">03</span><div><strong>修正後も、守り続ける性質は何か</strong><p>個別の例を直すだけでなく、データを失わない、既存動作を変えないといった不変条件を言語化します。</p></div></li>
+            <li><span class="mono">04</span><div><strong>指摘と修正を、何で再現・確認するか</strong><p>事実、期待する動作、再現手順またはテストを分け、再レビューで同じ基準を使います。</p></div></li>
+          </ol>
+          <h3 class="subheading">感想ではなく、次の行動が分かるフィードバックへ</h3>
+          <div class="comparison">
+            <article class="comparison-card">
+              <span class="small-label">判断しにくい伝え方</span>
+              <h3>「正しく動きません。直してください」</h3>
+              <p>どの入力で何が起き、何を期待し、どう確認するかが分からないため、修正と再レビューの基準が揃いません。</p>
+            </article>
+            <article class="comparison-card is-next">
+              <span class="small-label">根拠を持った伝え方</span>
+              <h3>事実 · 期待 · 確認方法</h3>
+              <pre><code>事実: [確認した入力と結果]
+期待: [Issueや仕様で求める動作]
+確認: [再現手順または追加するテスト]</code></pre>
+            </article>
+          </div>
+          <div class="callout">
+            <h3>修正されたことと、採用できることは別</h3>
+            <p>コメントへの返信、コードの更新、review threadの解決、DraftからReady for reviewへの変更、最終マージは別の状態です。Exercise 04では、それぞれを確認しながら同じPRを完成へ導きます。</p>
+          </div>
+          <details>
+            <summary>話す一言と、レビュー用プロンプト</summary>
+            <div class="details-body">
+              <blockquote id="quote-review">AIの成果をレビューする目的は、失敗を見つけることではありません。受入条件と根拠をつなぎ、変更を採用できる状態へ導くことです。</blockquote>
+              <button class="button" type="button" data-copy="quote-review" hidden>この一言をコピー</button>
+              <div class="prompt-block">
+                <h4>レビュー：成功の要約ではなく根拠を見る</h4>
+                <pre><code id="prompt-review">Compare this PR with the issue's acceptance criteria. Check edge cases and invariants. For each concern, give the evidence, expected behavior, and a reproduction or test. Distinguish verified results from assumptions. Do not change files. Answer in Japanese.</code></pre>
+                <button class="button" type="button" data-copy="prompt-review" hidden>レビュー用プロンプトをコピー</button>
+              </div>
+              <div class="exercise-links">
+                <a class="button" href="https://github.com/shinyay/aigenius-s5-ai-native-coding-workflow/blob/main/exercises/03-review-a-pr/README.ja.md">Exercise 03 · PRをレビュー</a>
+                <a class="button" href="https://github.com/shinyay/aigenius-s5-ai-native-coding-workflow/blob/main/exercises/04-iterate/README.ja.md">Exercise 04 · 反復して採用</a>
+              </div>
+            </div>
+          </details>
+        </section>
+
+        <section class="chapter" id="boundaries" aria-labelledby="boundaries-title" data-chapter>
+          <p class="section-kicker">06 / Trust through clear boundaries</p>
+          <h2 id="boundaries-title">魅力を伝えるために、<br>できることを言いすぎない。</h2>
+          <p class="intro">新しいDXは、何でも自動的に安全になることではありません。<strong>どの範囲を委ね、何を確認して採用するかを説明できること</strong>が、使う側の安心につながります。</p>
+          <div class="boundary-grid">
+            <article class="boundary"><h3>作業分離 ≠ 完全な隔離</h3><p>worktreeは作業ディレクトリを分けます。外部サービスへの書き込みやポート、認証情報の共有、統合時の競合は別問題です。</p></article>
+            <article class="boundary"><h3>Appの画面 ≠ クラウド実行</h3><p>セッションの実行先には新しいworktree、ローカルリポジトリ、cloud sandboxなどの選択肢があります。「PCを閉じても進む」は実行場所を確認して説明します。</p></article>
+            <article class="boundary"><h3>指示ファイル ≠ アクセス制御</h3><p>「本番に触れない」と指示するだけでなく、実際の権限、秘密情報、ネットワーク、接続ツールを整えます。一時環境という名称だけで保証しません。</p></article>
+            <article class="boundary"><h3>実行記録 ≠ 正しさの証明</h3><p>PR説明は要約です。セッション記録、差分、実行結果を照合します。記録は観察可能な作業の根拠であり、モデルの内部思考を完全に示すものではありません。</p></article>
+            <article class="boundary"><h3>自動化できる ≠ 常に自動化する</h3><p>AppにはAgent Mergeがあります。この教材では、最終判断を学ぶため人間が手動マージします。「Copilotにはマージ機能がない」とは説明しません。</p></article>
+            <article class="boundary"><h3>操作完了 ≠ 採用完了</h3><p>返信する、threadを解決する、Draftを解除する、mainへマージするのは別の操作です。画面の位置より「何の状態を変えたか」を確認します。</p></article>
+          </div>
+          <p class="note">実行先・自律性の設定は<a href="#source-sessions">[2]</a>、Agent Mergeは<a href="#source-work">[4]</a>、教材の手動レビュー・マージ手順は<a href="#source-iterate">[9]</a>を参照してください。</p>
+          <div class="callout">
+            <h3>「速くなった」と言う前に、何を測ったか。</h3>
+            <p>ひとつのデモだけで、生産性が何倍になるかは分かりません。複数エージェントによる同時作業も、無条件に速くなるわけではありません。レビュー可能な粒度、手戻り、成果の採用率、実行コストを一緒に見ます。</p>
+          </div>
+        </section>
+
+        <section class="chapter" id="practice" aria-labelledby="practice-title" data-chapter>
+          <p class="section-kicker">07 / Make the next task better</p>
+          <h2 id="practice-title">明日、ひとつの仕事から始める。</h2>
+          <p class="intro">最初から大量のエージェントを並べる必要はありません。<strong>小さく定義できる仕事を1件、根拠を持って完成へ導く。</strong>そのループをチームで繰り返せることが出発点です。</p>
+          <div class="meta-row"><span class="tag">実践への提案</span></div>
+          <div class="persona-grid">
+            <article class="persona"><span class="small-label">Developer</span><h3>開発者</h3><p>小さな修正を選び、受入条件を言語化する。生成結果に対して<strong>どの入力を試せば判断できるか</strong>を考えます。</p></article>
+            <article class="persona"><span class="small-label">Tech lead</span><h3>技術リード</h3><p>生成量より、レビューできる粒度と手戻りを見る。エージェントの並行数を<strong>人間の判断能力</strong>に合わせます。</p></article>
+            <article class="persona"><span class="small-label">Platform team</span><h3>基盤・開発環境担当</h3><p>指示、環境、権限、CI、ルールを整える。個人の工夫を<strong>安心して委譲できる共通条件</strong>へ変えます。</p></article>
+          </div>
+          <h3 class="subheading">最初の1件で行うこと</h3>
+          <ol class="practice-list">
+            <li><span class="mono">01</span><div><strong>完了を判定できる、小さな課題を選ぶ</strong><p>コードの生成量ではなく、利用者に何ができれば完了かを定義します。</p></div></li>
+            <li><span class="mono">02</span><div><strong>任せ方と境界を決める</strong><p>モード、実行場所、変更対象、触れないデータやサービスを明確にします。</p></div></li>
+            <li><span class="mono">03</span><div><strong>差分と根拠を対応付け、修正を依頼する</strong><p>実行記録を読み、受入条件と境界値を確認します。指摘は事実・期待・確認方法の組にします。</p></div></li>
+            <li><span class="mono">04</span><div><strong>採用したら、学びもリポジトリへ戻す</strong><p>不足していた条件、回帰テスト、迷った手順を更新し、次の仕事の初期状態を良くします。</p></div></li>
+          </ol>
+          <details>
+            <summary>最初に使えるプロンプト：理解・計画</summary>
+            <div class="details-body">
+              <p>対象Issueやファイルをコンテキストに追加してから使います。以下は操作を実行するボタンではなく、会話へ貼り付ける文章です。</p>
+              <div class="prompt-block">
+                <h4>理解：既存のコード経路を追う</h4>
+                <pre><code id="prompt-understand">Explain how this feature works in this repository. Cite the relevant files and functions, and distinguish what you read from what you executed. Do not change files. Answer in Japanese.</code></pre>
+                <button class="button" type="button" data-copy="prompt-understand" hidden>理解用プロンプトをコピー</button>
+              </div>
+              <div class="prompt-block">
+                <h4>計画：実装の前に範囲を合わせる</h4>
+                <pre><code id="prompt-plan">Read this issue and the repository instructions. Propose an implementation plan with scope, acceptance criteria, risks, and targeted tests. Identify unresolved assumptions. Do not implement yet. Answer in Japanese.</code></pre>
+                <button class="button" type="button" data-copy="prompt-plan" hidden>計画用プロンプトをコピー</button>
+              </div>
+            </div>
+          </details>
+          <h3 class="subheading">このリポジトリで体験する</h3>
+          <p>Exercises 01–04で中核の開発ループを完了します。Azureや生成AIとの連携は、さらに練習したい人向けのオプションです。</p>
+          <div class="exercise-links">
+            <a class="button" href="https://github.com/shinyay/aigenius-s5-ai-native-coding-workflow/blob/main/exercises/01-write-an-issue/README.ja.md">01 · Issueを定義</a>
+            <a class="button" href="https://github.com/shinyay/aigenius-s5-ai-native-coding-workflow/blob/main/exercises/02-assign-to-copilot/README.ja.md">02 · 作業を委譲</a>
+            <a class="button" href="https://github.com/shinyay/aigenius-s5-ai-native-coding-workflow/blob/main/exercises/03-review-a-pr/README.ja.md">03 · PRをレビュー</a>
+            <a class="button" href="https://github.com/shinyay/aigenius-s5-ai-native-coding-workflow/blob/main/exercises/04-iterate/README.ja.md">04 · 反復して採用</a>
+            <a class="button" href="https://github.com/shinyay/aigenius-s5-ai-native-coding-workflow/blob/main/exercises/05-azure-and-ai/README.ja.md">05 · オプション Azure + AI</a>
+          </div>
+          <blockquote class="closing" id="quote-closing">AIに任せるのは、コード生成だけではありません。<br>調査、実装、テスト、修正という作業です。<br>人間が持ち続けるのは、目的と品質基準、そして採用の判断です。</blockquote>
+          <button class="button" type="button" data-copy="quote-closing" style="margin-top: 1rem;" hidden>締めの言葉をコピー</button>
+        </section>
+
+        <section class="chapter" id="sources" aria-labelledby="sources-title" data-chapter>
+          <p class="section-kicker">08 / Sources and scope</p>
+          <h2 id="sources-title">根拠と提案を、分けて読む。</h2>
+          <p class="intro">製品の説明はGitHub公式ドキュメント、実践手順はこのリポジトリのExercises、伝え方は本ガイドの整理です。仕様と教材上の進め方を混同しないよう、参照元を分けて掲載しています。</p>
+          <div class="meta-row"><span class="tag">公式仕様：参照日 2026-09-07</span><span class="tag">ワークショップ手順：Exercises 01–05</span><span class="tag">説明：本ガイドの整理</span></div>
+          <ol class="sources">
+            <li id="source-app"><span class="mono">[1]</span><a href="https://docs.github.com/en/copilot/concepts/agents/github-copilot-app">About the GitHub Copilot app</a><p>Appの位置付け、並行セッション、GitHubとの連携、Canvas、利用上の前提。</p></li>
+            <li id="source-sessions"><span class="mono">[2]</span><a href="https://docs.github.com/en/copilot/how-tos/github-copilot-app/agent-sessions">Working with agent sessions</a><p>実行場所の選択、Plan・Interactive・Autopilot、モデルと作業単位。</p></li>
+            <li id="source-canvas"><span class="mono">[3]</span><a href="https://docs.github.com/en/copilot/how-tos/github-copilot-app/working-with-canvas-extensions">Working with canvas extensions</a><p>人間とエージェントの共有作業面。Project scopeとUser scopeの違い。</p></li>
+            <li id="source-work"><span class="mono">[4]</span><a href="https://docs.github.com/en/copilot/how-tos/github-copilot-app/managing-issues-and-pull-requests">Managing issues and pull requests</a><p>My work、Issueからのセッション、差分レビュー、Agent Merge。</p></li>
+            <li id="source-cloud"><span class="mono">[5]</span><a href="https://docs.github.com/en/copilot/concepts/agents/cloud-agent/about-cloud-agent">About GitHub Copilot cloud agent</a><p>クラウド実行の役割、非同期作業、利用範囲と制約。</p></li>
+            <li id="source-presenter"><span class="mono">[6]</span><a href="https://github.com/shinyay/aigenius-s5-ai-native-coding-workflow/tree/main/presentation/ai-genius-s5e1">AI Genius Slide Presenterの教材</a><p>このリポジトリ独自のスライドCanvas。汎用App標準機能とは区別しています。</p></li>
+            <li id="source-exercises"><span class="mono">[7]</span><a href="https://github.com/shinyay/aigenius-s5-ai-native-coding-workflow/blob/main/README.ja.md">AI Geniusワークショップ：演習一覧</a><p>コアのExercises 01–04と、オプションのExercise 05。ワークショップ全体の学習経路を確認できます。</p></li>
+            <li id="source-review"><span class="mono">[8]</span><a href="https://github.com/shinyay/aigenius-s5-ai-native-coding-workflow/blob/main/exercises/03-review-a-pr/README.ja.md">Exercise 03：根拠を持ったPRレビュー</a><p>受入条件、境界値、テストの有効性を確認し、事実・期待・確認方法を持つレビューコメントを作る演習。</p></li>
+            <li id="source-iterate"><span class="mono">[9]</span><a href="https://github.com/shinyay/aigenius-s5-ai-native-coding-workflow/blob/main/exercises/04-iterate/README.ja.md">Exercise 04：修正・thread解決・手動マージ</a><p>修正依頼、再レビュー、thread解決、Ready for review、手動マージを区別し、同じPRを完成へ導く演習。</p></li>
+          </ol>
+          <div class="callout">
+            <h3>この資料の位置付け</h3>
+            <p>AI Geniusワークショップ用の解説資料であり、GitHubの公式製品資料ではありません。GitHub風の情報階層と共通Artifactテーマを組み合わせています。機能・UI・利用条件は変わるため、実施前にリンク先の公式情報を確認してください。</p>
+            <p>本文と基本操作はネット接続なしで利用できます。出典・Exercisesへのリンクを開くときはネット接続が必要です。Privateリポジトリへのリンク、認証情報、解析タグは含めていません。</p>
+          </div>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <span>AI Genius / GitHub Copilot App Developer Experience Guide</span>
+    <span>目的を定める。作業を委ねる。根拠で判断する。</span>
+  </footer>
+  <p class="status-message" id="copy-status" role="status" aria-live="polite" aria-atomic="true"></p>
+
+  <script>
+    (() => {
+      "use strict";
+
+      const root = document.documentElement;
+      const themeButton = document.getElementById("theme-toggle");
+      const printButton = document.getElementById("print-button");
+      const themeMedia = window.matchMedia("(prefers-color-scheme: dark)");
+      const queryTheme = new URLSearchParams(window.location.search).get("scoutTheme");
+      const hasExplicitTheme = queryTheme === "light" || queryTheme === "dark";
+      let themeChangedByReader = false;
+
+      function updateTheme(theme) {
+        root.dataset.theme = theme;
+        themeButton.textContent = theme === "dark" ? "ライト表示" : "ダーク表示";
+        themeButton.setAttribute("aria-label", theme === "dark" ? "ライトテーマに切り替える" : "ダークテーマに切り替える");
+      }
+
+      updateTheme(hasExplicitTheme ? queryTheme : themeMedia.matches ? "dark" : "light");
+      themeButton.hidden = false;
+      themeButton.addEventListener("click", () => {
+        themeChangedByReader = true;
+        updateTheme(root.dataset.theme === "dark" ? "light" : "dark");
+      });
+      themeMedia.addEventListener("change", (event) => {
+        if (!hasExplicitTheme && !themeChangedByReader) updateTheme(event.matches ? "dark" : "light");
+      });
+
+      const toc = document.getElementById("toc");
+      const wideLayout = window.matchMedia("(min-width: 1100px)");
+      const tocLinks = Array.from(toc.querySelectorAll("a"));
+      toc.open = wideLayout.matches;
+      wideLayout.addEventListener("change", (event) => { toc.open = event.matches; });
+      tocLinks.forEach((link) => {
+        link.addEventListener("click", () => {
+          if (!wideLayout.matches) toc.open = false;
+        });
+      });
+
+      const chapters = Array.from(document.querySelectorAll("[data-chapter]"));
+      let navigationQueued = false;
+      function updateActiveChapter() {
+        navigationQueued = false;
+        const readingLine = Math.max(180, window.innerHeight * 0.3);
+        const active = [...chapters].reverse().find((chapter) => chapter.getBoundingClientRect().top <= readingLine) || chapters[0];
+        tocLinks.forEach((link) => {
+          if (link.hash === `#${active.id}`) link.setAttribute("aria-current", "location");
+          else link.removeAttribute("aria-current");
+        });
+      }
+      function queueNavigationUpdate() {
+        if (navigationQueued) return;
+        navigationQueued = true;
+        window.requestAnimationFrame(updateActiveChapter);
+      }
+      window.addEventListener("scroll", queueNavigationUpdate, { passive: true });
+      window.addEventListener("resize", queueNavigationUpdate);
+      updateActiveChapter();
+
+      const copyStatus = document.getElementById("copy-status");
+      let statusTimer;
+      function announce(message) {
+        window.clearTimeout(statusTimer);
+        copyStatus.textContent = message;
+        statusTimer = window.setTimeout(() => { copyStatus.textContent = ""; }, 9000);
+      }
+
+      document.querySelectorAll("[data-copy]").forEach((button) => {
+        const target = document.getElementById(button.dataset.copy);
+        if (!target) {
+          button.hidden = false;
+          button.disabled = true;
+          button.textContent = "コピー対象が見つかりません";
+          console.error(`Copy target not found: ${button.dataset.copy}`);
+          return;
+        }
+        button.hidden = false;
+        button.addEventListener("click", async () => {
+          button.disabled = true;
+          try {
+            if (!navigator.clipboard?.writeText) throw new Error("Clipboard API is unavailable.");
+            await navigator.clipboard.writeText(target.innerText.trim());
+            announce("コピーしました。会話やメモへ貼り付けられます。");
+          } catch {
+            const selection = window.getSelection();
+            if (selection) {
+              const range = document.createRange();
+              range.selectNodeContents(target);
+              selection.removeAllRanges();
+              selection.addRange(range);
+              announce("自動コピーを利用できません。本文を選択しました。Ctrl+C（Macは⌘C）でコピーしてください。");
+            } else {
+              announce("自動コピーを利用できません。本文を手動で選択してコピーしてください。");
+            }
+          } finally {
+            button.disabled = false;
+          }
+        });
+      });
+
+      let printDetails;
+      window.addEventListener("beforeprint", () => {
+        if (printDetails) return;
+        printDetails = Array.from(document.querySelectorAll("details"), (element) => ({ element, open: element.open }));
+        printDetails.forEach(({ element }) => { element.open = true; });
+      });
+      window.addEventListener("afterprint", () => {
+        if (!printDetails) return;
+        printDetails.forEach(({ element, open }) => { element.open = open; });
+        printDetails = undefined;
+      });
+      printButton.hidden = false;
+      printButton.addEventListener("click", () => window.print());
+    })();
+  </script>
+</body>
+</html>
