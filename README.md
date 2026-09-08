@@ -40,6 +40,37 @@ You are the **tech lead** in this workflow. Copilot handles the *how*. You defin
 
 ---
 
+## The Workshop App: Task Manager CLI
+
+`starter-app` is a Python command-line (CLI) app for managing work and everyday to-dos from the terminal. You interact with tasks through commands such as `python app.py ...`, rather than a web interface.
+
+### What It Already Does
+
+| Command | What it does |
+|---|---|
+| `add` | Add a task with a description, priority, tags, and due date |
+| `list` | List tasks and filter by completion status, priority, tag, or overdue status |
+| `complete` | Mark a task as complete by its ID |
+| `edit` | Change a task's name, description, priority, tags, or due date by its ID |
+| `delete` | Delete a task by its ID |
+| `stats` | Show total, done, pending, and overdue counts, plus pending counts by priority |
+
+Each task has an ID and name, and stores a description, priority (`low`, `medium`, or `high`), multiple tags, a due date (`YYYY-MM-DD`), completion status, and creation time. Pending tasks with a due date in the past appear as **Overdue** in red in the task list.
+
+After setup, run `python app.py --help` from the `starter-app` directory to see all commands, or a command-specific help such as `python app.py add --help` to see its options.
+
+### Where Tasks Are Stored
+
+Tasks are saved as JSON in **`tasks.json`**, beside `app.py` in the `starter-app` directory. The file is created when you add the first task and reused by subsequent commands. When running in Codespaces, the file is stored inside that codespace.
+
+The starter app does not connect to Azure or AI services. No Azure resources or API keys are needed to run it; GitHub Copilot is used to develop and improve the app.
+
+### Its Role in the Workshop
+
+Rather than generating an app from scratch, you will **add new features to a working application while preserving its existing behavior**. First, understand what it already does and describe a feature you want to add in an issue. Then delegate implementation to Copilot, review and iterate on the PR, and decide whether to accept the change.
+
+---
+
 ## Setup Instructions
 
 ### Prerequisites
@@ -59,7 +90,7 @@ You are the **tech lead** in this workflow. Copilot handles the *how*. You defin
    cd aigenius-s5-ai-native-coding-workflow
    ```
 
-3. **Run the starter app**:
+3. **Add two tasks with the starter app, then display the task list and statistics**:
    ```bash
    cd starter-app
    pip install -r requirements.txt
@@ -69,9 +100,33 @@ You are the **tech lead** in this workflow. Copilot handles the *how*. You defin
    python app.py stats
    ```
 
+   If you start with no tasks and run this example once, you will have two tasks, both pending. If the current date is after `2025-12-31`, "Deploy the API" will appear as **Overdue**. Overdue tasks are a subset of pending tasks, so the statistics in that case show **2 pending tasks, of which 1 is overdue**.
+
 4. **Open the GitHub Copilot App** and connect it to your forked repo.
 
 5. Complete core Exercises 01–04 in order, starting with [`exercises/01-write-an-issue`](./exercises/01-write-an-issue/README.md). After completing the core workflow, optionally continue to [Optional Exercise 05](./exercises/05-azure-and-ai/README.md) for Azure and AI practice.
+
+---
+
+## Automated Tests (CI)
+
+The [Starter app tests workflow](./.github/workflows/tests.yml) runs on pull requests targeting `main`, including drafts, and on pushes to `main`. It also runs when a PR is updated, reopened, or marked ready for review. Documentation-only changes are included.
+
+CI installs the dependencies from `starter-app/requirements.txt` and runs the existing pytest suite on Ubuntu with **Python 3.10 and 3.14**. Each version reports a separate check, and a failure in one version does not cancel the other. The tests use an isolated task file rather than your saved tasks.
+
+After completing setup, run the same tests from the `starter-app` directory:
+
+```bash
+python -m pytest -q
+```
+
+Open the PR's **Checks** tab, or select **Starter app tests** in the repository's **Actions** tab. Look for successful `pytest (Python 3.10)` and `pytest (Python 3.14)` checks for the latest PR changes. PR runs test GitHub's temporary merge commit; they do not update `main`.
+
+**Tests run inside a Copilot session and PR checks are different.** A successful agent session does not replace the results from this CI workflow.
+
+For a Copilot-created PR, GitHub may require a user with write access to select **Approve and run workflows**. Review the workflow and the code it will run before allowing execution. This permission is separate from an **Approve** review of the PR. If checks have not appeared, check whether this workflow is awaiting execution approval.
+
+This workflow does not configure required checks or branch protection, approve reviews, or merge pull requests.
 
 ---
 
@@ -118,6 +173,8 @@ Exercise 01 includes Azure-based Options A and B. Choose Option C or D for a cor
   ├── .github/
   │   ├── copilot-instructions.md      # Canonical Copilot context
   │   ├── copilot-instructions.ja.md   # Japanese contributor reference
+  │   ├── workflows/
+  │   │   └── tests.yml               # pytest CI on Python 3.10 and 3.14
   │   ├── extensions/
   │   │   └── ai-genius-presenter/     # GitHub Copilot App slide Canvas
   │   └── ISSUE_TEMPLATE/
