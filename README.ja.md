@@ -49,6 +49,37 @@ Copilotは実装の速度を高めますが、何を作るべきか、変更を�
 
 ---
 
+## 演習で使うアプリ：Task Manager CLI
+
+`starter-app` は、仕事や日常のToDoをターミナルから管理する、Python製のコマンドライン（CLI）アプリです。Web画面ではなく、`python app.py ...` というコマンドでタスクを操作します。
+
+### 現在できること
+
+| コマンド | できること |
+|---|---|
+| `add` | タスクを追加し、説明・優先度・タグ・期限を設定する |
+| `list` | タスクを一覧表示し、完了状態・優先度・タグ・期限切れで絞り込む |
+| `complete` | IDを指定してタスクを完了にする |
+| `edit` | IDを指定してタスクの名前・説明・優先度・タグ・期限を変更する |
+| `delete` | IDを指定してタスクを削除する |
+| `stats` | 全件数・完了数・未完了数・期限切れ数と、優先度別の未完了数を表示する |
+
+各タスクはIDと名前を持ち、説明、優先度（`low`・`medium`・`high`）、複数のタグ、期限（`YYYY-MM-DD`）、完了状態、作成日時を保存します。期限を過ぎた未完了タスクは、一覧で赤い **Overdue** として表示されます。
+
+セットアップ後、`starter-app` ディレクトリで `python app.py --help` を実行するとコマンド一覧を、`python app.py add --help` などを実行すると各コマンドのオプションを確認できます。
+
+### データの保存先
+
+タスクは、`starter-app` ディレクトリの `app.py` と同じ場所にある **`tasks.json`** にJSON形式で保存されます。最初のタスク登録時にファイルが作成され、次のコマンド実行でも同じデータを読み込みます。Codespacesで動かす場合は、そのCodespace内に保存されます。
+
+初期状態のアプリはAzureやAIサービスへ接続しません。アプリの実行にAzureリソースやAPIキーは不要で、GitHub Copilotはこのアプリを開発・改善するために使います。
+
+### 演習での役割
+
+このワークショップは、ゼロからアプリを生成するのではなく、**動作する既存アプリへ、今ある機能を壊さずに新しい機能を追加する**演習です。まず現在の動作を理解し、追加したい機能をIssueへ具体化します。その後、Copilotへ実装を委譲し、PRのレビューと改善を通じて変更を採用するか判断します。
+
+---
+
 ## セットアップ
 
 ### 必要なもの
@@ -69,7 +100,7 @@ Copilotは実装の速度を高めますが、何を作るべきか、変更を�
    cd aigenius-s5-ai-native-coding-workflow
    ```
 
-3. スターターアプリを実行します。
+3. スターターアプリで2件のタスクを登録し、一覧と統計を表示します。
 
    ```bash
    cd starter-app
@@ -80,9 +111,33 @@ Copilotは実装の速度を高めますが、何を作るべきか、変更を�
    python app.py stats
    ```
 
+   タスクがない状態でこの例を1回実行すると、合計2件・未完了2件になります。実行日が `2025-12-31` より後であれば、「APIをデプロイする」は **Overdue** になります。期限切れは未完了タスクの内数なので、この場合は **Pending 2件のうちOverdue 1件**という集計です。
+
 4. GitHub Copilot Appを開き、Forkしたリポジトリを利用できる状態にします。
 
 5. [Exercise 01：実装につながるIssueを書く](./exercises/01-write-an-issue/README.ja.md)から、コアのExercises 01〜04を順番に進めます。中核の開発ループを完了した後、希望する場合は[オプション Exercise 05](./exercises/05-azure-and-ai/README.ja.md)でAzureとAIの課題へ進みます。
+
+---
+
+## 自動テスト（CI）
+
+[Starter app testsワークフロー](./.github/workflows/tests.yml)は、Draftを含む`main`向けのPRと、`main`へのpushで実行されます。PRの更新、再オープン、Ready for reviewへの変更でも実行し、ドキュメントだけの変更も対象にします。
+
+CIは`starter-app/requirements.txt`から依存関係を導入し、Ubuntu上の**Python 3.10と3.14**で既存のpytestテストを実行します。バージョンごとに独立したチェックを報告し、片方の失敗で他方を中止しません。テストは保存済みのタスクではなく、隔離したタスクファイルを使用します。
+
+セットアップ後は、`starter-app`ディレクトリで同じテストを実行できます。
+
+```bash
+python -m pytest -q
+```
+
+PRの**Checks**タブ、またはリポジトリの**Actions**タブにある**Starter app tests**を開き、最新のPR変更に対する`pytest (Python 3.10)`と`pytest (Python 3.14)`の成功を確認します。PRでの実行はGitHubの一時的なマージコミットをテストするもので、`main`を更新する操作ではありません。
+
+**Copilotのセッション内テストと、PRのチェックは別です。** エージェントの作業が成功しても、このCIの結果を確認する代わりにはなりません。
+
+Copilotが作成したPRでは、書き込み権限を持つ利用者による**Approve and run workflows**が必要になる場合があります。ワークフローと実行対象のコードを読んでから実行を許可してください。これはPRを**Approve**する承認レビューとは別です。チェックが表示されない場合は、このワークフローが実行承認待ちになっていないかを確認します。
+
+このワークフローは、必須チェックやブランチ保護の設定、承認レビュー、PRのマージを行いません。
 
 ---
 
@@ -129,6 +184,8 @@ aigenius-s5-ai-native-coding-workflow/
   ├── .github/
   │   ├── copilot-instructions.md
   │   ├── copilot-instructions.ja.md
+  │   ├── workflows/
+  │   │   └── tests.yml           # Python 3.10と3.14でpytestを実行
   │   ├── extensions/
   │   │   └── ai-genius-presenter/
   │   └── ISSUE_TEMPLATE/
