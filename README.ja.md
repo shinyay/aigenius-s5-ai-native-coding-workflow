@@ -103,6 +103,10 @@ Copilotは実装の速度を高めますが、何を作るべきか、変更を�
 
 [日英切り替え対応のHTML DXガイド](./presentation/copilot-app-dx/README.ja.md)では、伝えたい主題、6つのDeveloper Experienceの変化、製品の役割分担、採用判断につなげるレビューと反復の進め方を説明しています。**日本語 / English**で本文・図解・プロンプト・演習リンクを切り替えられます。単一ファイルのスクロール型Artifactで、既存スライドとは独立してローカルブラウザーや**Browser Canvas**で表示できます。
 
+## 補足：Agent MergeでPRの仕上げを委譲する
+
+[日英対応のAgent Mergeガイド](./presentation/copilot-app-agent-merge/README.ja.md)では、機能・利用手順・ユースケース・人間が決める条件を、CSS/SVG図解と5つの架空PRシミュレーションで学べます。ネット接続や実際のPR操作を行わない単一HTML Artifactです。コア演習の手動マージ方針は変更せず、その先の選択肢を紹介する独立した補足教材です。
+
 ---
 
 ## 演習の流れ

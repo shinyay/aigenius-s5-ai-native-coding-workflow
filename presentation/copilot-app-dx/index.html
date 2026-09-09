@@ -18,8 +18,8 @@ The visual direction is pinned to the GitHub Brand Toolkit, not a generated camp
   <script>
     (() => {
       const param = new URLSearchParams(window.location.search).get("scoutTheme");
-      const theme =
-        param || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+      const theme = param === "light" || param === "dark"
+        ? param : (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
       document.documentElement.setAttribute("data-theme", theme);
     })();
   </script>
@@ -138,11 +138,18 @@ The visual direction is pinned to the GitHub Brand Toolkit, not a generated camp
     .skip-link { position: fixed; top: -6rem; left: 1rem; z-index: 100; padding: 0.75rem 1rem; background: var(--cp-surface); color: var(--cp-text); border: 1px solid var(--cp-border-strong); border-radius: 0.625rem; }
     .skip-link:focus { top: 1rem; }
     .topbar { position: sticky; top: 0; z-index: 20; background: var(--cp-bg); border-bottom: 1px solid var(--cp-border); }
-    .topbar-inner { max-width: 1320px; min-height: var(--cp-header-min-height); margin: 0 auto; padding: 0.75rem 2rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+    .topbar-inner { max-width: 1320px; min-height: var(--cp-header-min-height); margin: 0 auto; padding: 0.75rem 2rem; display: grid; grid-template-columns: minmax(0, 1fr) auto auto; align-items: center; gap: 1rem; }
     .brand { display: flex; align-items: center; gap: 0.75rem; min-width: 0; margin-right: auto; color: var(--cp-text); text-decoration: none; line-height: 1.45; }
     .brand-mark { width: 32px; height: 32px; flex: none; }
     .brand-name { display: block; font-weight: 700; }
     .brand-subtitle { display: block; color: var(--cp-text-muted); font-size: 0.8125rem; }
+    .guide-navigation { display: flex; flex-wrap: wrap; align-items: center; gap: 0.25rem 1rem; min-width: 0; }
+    .guide-navigation a { display: inline-flex; align-items: center; min-height: 44px; padding: 0.375rem 0; color: var(--cp-text-muted); font-size: 0.875rem; line-height: 1.5; text-decoration: none; }
+    .guide-navigation a:hover { color: var(--cp-text); text-decoration: underline; }
+    .guide-navigation a[aria-current="page"] { color: var(--cp-text); font-weight: 700; text-decoration: underline; text-decoration-thickness: 2px; }
+    .guide-context { margin-top: 1rem; }
+    .guide-context a { display: inline-flex; align-items: center; min-height: 44px; }
+    .display-controls { display: flex; align-items: center; justify-content: flex-end; gap: 0.5rem; min-width: 0; }
     .top-actions { display: flex; align-items: center; gap: 0.5rem; flex-shrink: 0; }
     .button {
       display: inline-flex;
@@ -382,6 +389,10 @@ The visual direction is pinned to the GitHub Brand Toolkit, not a generated camp
     .status-message { position: fixed; bottom: 1rem; left: 50%; transform: translateX(-50%); z-index: 30; width: max-content; max-width: calc(100% - 2rem); padding: 1rem 1.25rem; border: 1px solid var(--cp-border-strong); border-radius: 0.625rem; background: var(--cp-surface); color: var(--cp-text); box-shadow: var(--cp-shadow); font-size: 0.9375rem; }
     .status-message:empty { display: none; }
     @media (max-width: 1099px) {
+      :root { --cp-header-height: 7.75rem; }
+      .topbar-inner { grid-template-columns: minmax(0, 1fr) auto; }
+      .guide-navigation { grid-column: 1 / -1; grid-row: 2; }
+      .display-controls { grid-column: 2; grid-row: 1; }
       .hero { grid-template-columns: minmax(0, 1fr); gap: 3rem; padding: 3.5rem 0; }
       .hero-lead, .hero-caption { max-width: 45rem; }
       .agreement { max-width: 36rem; width: 100%; }
@@ -394,13 +405,12 @@ The visual direction is pinned to the GitHub Brand Toolkit, not a generated camp
       html { scroll-padding-top: calc(var(--cp-header-height) + 6rem); }
     }
     @media (max-width: 759px) {
-      :root { --cp-header-height: 4.5rem; --cp-header-min-height: 4.5rem; }
-      html[data-languages-ready] { --cp-header-min-height: 7.5rem; }
+      :root { --cp-header-min-height: 4.5rem; }
       .shell { padding: 0 1.25rem; }
-      .topbar-inner { padding: 0.75rem 1.25rem; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 0.5rem; }
+      .topbar-inner { padding: 0.75rem 1.25rem; grid-template-columns: minmax(0, 1fr); gap: 0.5rem; }
       .brand { grid-column: 1; grid-row: 1; }
-      .top-actions { grid-column: 2; grid-row: 1; }
-      .language-switch { grid-column: 1 / -1; grid-row: 2; justify-self: end; }
+      .display-controls { grid-column: 1; grid-row: 3; justify-content: flex-start; flex-wrap: wrap; }
+      .display-controls .button { padding-inline: 0.65rem; font-size: 0.8125rem; }
       .localization-error, .no-script-note { margin-inline: 1.25rem; }
       .brand-mark { width: 28px; height: 28px; }
       .brand-subtitle { display: none; }
@@ -453,7 +463,7 @@ The visual direction is pinned to the GitHub Brand Toolkit, not a generated camp
       .brand { gap: 0.5rem; }
       .brand-name { font-size: 0.875rem; }
       .brand-mark { width: 24px; height: 24px; }
-      .top-actions .button { padding-inline: 0.75rem; font-size: 0.8125rem; }
+      .top-actions .button { padding-inline: 0.65rem; font-size: 0.8125rem; }
       .toc ol { grid-template-columns: 1fr; }
       .agreement-roles { padding-right: 1.5rem; }
       .principle-row { padding: 1rem; }
@@ -541,13 +551,19 @@ The visual direction is pinned to the GitHub Brand Toolkit, not a generated camp
           <span class="brand-subtitle">GitHub Copilot Appで変わる、仕事の進め方</span>
         </span>
       </a>
-      <div class="language-switch" id="language-switch" role="group" aria-label="表示言語" hidden>
-        <button class="button" id="language-ja" type="button" data-language="ja" lang="ja" aria-pressed="true">日本語</button>
-        <button class="button" id="language-en" type="button" data-language="en" lang="en" aria-pressed="false">English</button>
-      </div>
-      <div class="top-actions">
-        <button class="button" id="theme-toggle" type="button" hidden>テーマ切替</button>
-        <button class="button print-button" id="print-button" type="button" hidden>印刷</button>
+      <nav class="guide-navigation" id="guide-navigation" aria-label="ガイド間の移動">
+        <a id="guide-dx" href="#thesis" aria-current="page" aria-label="DXガイドの先頭へ（現在のガイド）">DXガイド</a>
+        <a id="guide-agent-merge" href="../copilot-app-agent-merge/index.html#top" aria-label="Agent Merge補足ガイドの先頭へ">Agent Merge［補足］</a>
+      </nav>
+      <div class="display-controls" id="display-controls" hidden>
+        <div class="language-switch" id="language-switch" role="group" aria-label="表示言語" hidden>
+          <button class="button" id="language-ja" type="button" data-language="ja" lang="ja" aria-pressed="true">日本語</button>
+          <button class="button" id="language-en" type="button" data-language="en" lang="en" aria-pressed="false">English</button>
+        </div>
+        <div class="top-actions">
+          <button class="button" id="theme-toggle" type="button" hidden>テーマ切替</button>
+          <button class="button print-button" id="print-button" type="button" hidden>印刷</button>
+        </div>
       </div>
     </div>
   </header>
@@ -984,7 +1000,7 @@ The visual direction is pinned to the GitHub Brand Toolkit, not a generated camp
             <article class="boundary"><h3>Appの画面 ≠ クラウド実行</h3><p>セッションの実行先には新しいworktree、ローカルリポジトリ、cloud sandboxなどの選択肢があります。「PCを閉じても進む」は実行場所を確認して説明します。</p></article>
             <article class="boundary"><h3>指示ファイル ≠ アクセス制御</h3><p>「本番に触れない」と指示するだけでなく、実際の権限、秘密情報、ネットワーク、接続ツールを整えます。一時環境という名称だけで保証しません。</p></article>
             <article class="boundary"><h3>実行記録 ≠ 正しさの証明</h3><p>PR説明は要約です。セッション記録、差分、実行結果を照合します。記録は観察可能な作業の根拠であり、モデルの内部思考を完全に示すものではありません。</p></article>
-            <article class="boundary"><h3>自動化できる ≠ 常に自動化する</h3><p>AppにはAgent Mergeがあります。この教材では、最終判断を学ぶため人間が手動マージします。「Copilotにはマージ機能がない」とは説明しません。</p></article>
+            <article class="boundary"><h3>自動化できる ≠ 常に自動化する</h3><p>AppにはAgent Mergeがあります。この教材では、最終判断を学ぶため人間が手動マージします。「Copilotにはマージ機能がない」とは説明しません。</p><div class="guide-context"><a id="agent-merge-details" href="../copilot-app-agent-merge/index.html#capabilities">Agent Mergeの機能とユースケースを読む</a></div></article>
             <article class="boundary"><h3>操作完了 ≠ 採用完了</h3><p>返信する、threadを解決する、Draftを解除する、mainへマージするのは別の操作です。画面の位置より「何の状態を変えたか」を確認します。</p></article>
           </div>
           <p class="note">実行先・自律性の設定は<a href="#source-sessions">[2]</a>、Agent Mergeは<a href="#source-work">[4]</a>、教材の手動レビュー・マージ手順は<a href="#source-iterate">[9]</a>を参照してください。</p>
@@ -1217,6 +1233,10 @@ OTHER DEALINGS IN THE FONT SOFTWARE.</pre>
   "entries": [
     {"key":"page.a.1","selector":"body > a.skip-link","html":"Skip to content"},
     {"key":"header.span.1","selector":"body > header.topbar > div.topbar-inner > a.brand > span > span.brand-subtitle","html":"A new way of working with the GitHub Copilot app"},
+    {"key":"guide-navigation","selector":"#guide-navigation","attributes":{"aria-label":"Guide navigation"}},
+    {"key":"guide-dx","selector":"#guide-dx","html":"DX guide","attributes":{"aria-label":"Beginning of the DX guide (current guide)"}},
+    {"key":"guide-agent-merge","selector":"#guide-agent-merge","html":"Agent Merge [Companion]","attributes":{"aria-label":"Beginning of the Agent Merge companion guide"}},
+    {"key":"agent-merge-details","selector":"#agent-merge-details","html":"Read about Agent Merge capabilities and use cases"},
     {"key":"print-button","selector":"#print-button","html":"Print"},
     {"key":"page-title","selector":"#page-title","html":"\u003cspan class=\"hero-ai\">Delegate the work.\u003c/span>\u003cbr>\u003cspan class=\"hero-human\">Keep the judgment.\u003c/span>"},
     {"key":"thesis.p.1","selector":"#thesis > div > p.hero-lead","html":"Go beyond faster code generation.\u003cbr>Delegate work, inspect evidence, and guide it to completion.\u003cbr>\u003cstrong>The Copilot app is a workspace where people and AI move through that whole process together.\u003c/strong>"},
@@ -1597,13 +1617,25 @@ OTHER DEALINGS IN THE FONT SOFTWARE.</pre>
       let languageVersion = 0;
       let english = null;
       let languageBindings = [];
+      const queryParameters = new URLSearchParams(window.location.search);
+      const crossGuideLinks = [
+        { id: "guide-agent-merge", path: "../copilot-app-agent-merge/index.html", hash: "#top" },
+        { id: "agent-merge-details", path: "../copilot-app-agent-merge/index.html", hash: "#capabilities" }
+      ];
       const themeMedia = window.matchMedia("(prefers-color-scheme: dark)");
-      const queryTheme = new URLSearchParams(window.location.search).get("scoutTheme");
+      const queryTheme = queryParameters.get("scoutTheme");
       const hasExplicitTheme = queryTheme === "light" || queryTheme === "dark";
       let themeChangedByReader = false;
 
       function ui(key) {
         return (language === "en" ? english.ui : japaneseUI)[key];
+      }
+
+      function updateGuideLinks() {
+        const settings = new URLSearchParams({ lang: language, scoutTheme: root.dataset.theme });
+        for (const link of crossGuideLinks) {
+          document.getElementById(link.id).setAttribute("href", `${link.path}?${settings}${link.hash}`);
+        }
       }
 
       function renderControls(container, selectedLanguage, labels) {
@@ -1623,6 +1655,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.</pre>
       function updateTheme(theme) {
         root.dataset.theme = theme;
         renderControls(document.body, language, language === "en" ? english.ui : japaneseUI);
+        updateGuideLinks();
       }
 
       updateTheme(hasExplicitTheme ? queryTheme : themeMedia.matches ? "dark" : "light");
@@ -1672,7 +1705,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.</pre>
       }
       window.addEventListener("scroll", queueNavigationUpdate, { passive: true });
       window.addEventListener("resize", queueNavigationUpdate);
-      updateActiveChapter();
+      queueNavigationUpdate();
 
       const copyStatus = document.getElementById("copy-status");
       let statusTimer;
@@ -1762,6 +1795,9 @@ OTHER DEALINGS IN THE FONT SOFTWARE.</pre>
             }
             const template = document.createElement("template");
             template.innerHTML = entry.html;
+            if (element.matches(".guide-navigation a, #agent-merge-details") && template.content.childElementCount) {
+              issues.push(`${entry.key}: navigation labels must be text.`);
+            }
             for (const child of template.content.querySelectorAll("*")) {
               if (!allowedTags.has(child.tagName)) issues.push(`${entry.key}: unsupported inline element.`);
               for (const attribute of child.attributes) {
@@ -1782,7 +1818,8 @@ OTHER DEALINGS IN THE FONT SOFTWARE.</pre>
           }
           for (const [name, value] of Object.entries(englishAttributes)) {
             if (!allowedAttributes.has(name) || !text(value) ||
-                (name === "href" && (element.tagName !== "A" || !safeLink(value)))) {
+                (name === "href" && (element.tagName !== "A" ||
+                  element.matches(".guide-navigation a, #agent-merge-details") || !safeLink(value)))) {
               issues.push(`${entry.key}: unsupported attribute value.`);
             }
           }
@@ -1850,13 +1887,13 @@ OTHER DEALINGS IN THE FONT SOFTWARE.</pre>
         return anchor ? { element: anchor.element, offset: anchor.rect.top - readingEdge() } : null;
       }
 
-      function changeLanguage(next) {
+      function changeLanguage(next, { preserveReadingPosition = true } = {}) {
         if (next === language) return;
         if (next === "en" && !english) {
           announce(japaneseUI.languageUnavailable);
           return;
         }
-        const scroll = window.scrollY;
+        const scroll = preserveReadingPosition ? window.scrollY : 0;
         const anchor = scroll > 1 ? readingAnchor() : null;
         for (const binding of languageBindings) {
           const fragment = next === "en" ? binding.englishContent : binding.japaneseContent;
@@ -1876,11 +1913,14 @@ OTHER DEALINGS IN THE FONT SOFTWARE.</pre>
         window.clearTimeout(statusTimer);
         copyStatus.textContent = "";
         renderControls(document.body, next, next === "en" ? english.ui : japaneseUI);
+        updateGuideLinks();
         measureHeader();
-        const top = anchor
-          ? window.scrollY + anchor.element.getBoundingClientRect().top - readingEdge() - anchor.offset
-          : scroll;
-        window.scrollTo({ top: scroll <= 1 ? 0 : top, behavior: "instant" });
+        if (preserveReadingPosition) {
+          const top = anchor
+            ? window.scrollY + anchor.element.getBoundingClientRect().top - readingEdge() - anchor.offset
+            : scroll;
+          window.scrollTo({ top: scroll <= 1 ? 0 : top, behavior: "instant" });
+        }
         queueNavigationUpdate();
       }
 
@@ -1950,10 +1990,34 @@ OTHER DEALINGS IN THE FONT SOFTWARE.</pre>
       languageJa.addEventListener("click", () => changeLanguage("ja"));
       languageEn.addEventListener("click", () => changeLanguage("en"));
       languageSwitch.hidden = false;
+      document.getElementById("display-controls").hidden = false;
       root.dataset.languagesReady = "true";
+      changeLanguage(queryParameters.get("lang") === "en" && english ? "en" : "ja", { preserveReadingPosition: false });
       measureHeader();
       const headerObserver = new ResizeObserver(measureHeader);
       headerObserver.observe(header);
+
+      // Settle translated layout and fonts without replacing native history restoration.
+      const initialHash = window.location.hash;
+      const initialTarget = document.getElementById(initialHash.slice(1));
+      if (initialTarget && performance.getEntriesByType("navigation")[0]?.type !== "back_forward") {
+        let interrupted = false;
+        const interrupt = () => { interrupted = true; };
+        const inputEvents = ["pointerdown", "keydown", "wheel", "touchstart"];
+        inputEvents.forEach(type => window.addEventListener(type, interrupt, { once: true, passive: true }));
+        window.addEventListener("load", async () => {
+          await document.fonts.ready;
+          window.requestAnimationFrame(() => {
+            measureHeader();
+            window.requestAnimationFrame(() => {
+              inputEvents.forEach(type => window.removeEventListener(type, interrupt));
+              if (!interrupted && window.location.hash === initialHash) {
+                initialTarget.scrollIntoView({ block: "start", behavior: "instant" });
+              }
+            });
+          });
+        }, { once: true });
+      }
     })();
   </script>
 </body>

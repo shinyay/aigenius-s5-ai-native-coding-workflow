@@ -92,6 +92,10 @@ See [`presentation/ai-genius-s5e1`](./presentation/ai-genius-s5e1/README.md) for
 
 The [bilingual HTML DX guide](./presentation/copilot-app-dx/README.md) explains the central message, six changes in developer experience, product roles, and a review-and-iteration framework for making acceptance decisions. Use its **日本語 / English** toggle to switch the content, diagrams, prompts, and exercise links. It is a self-contained, scroll-based artifact that can be opened locally or in a **Browser Canvas**, independently of the slide presenter.
 
+## Companion: Delegate PR finishing with Agent Merge
+
+The [bilingual Agent Merge guide](./presentation/copilot-app-agent-merge/README.md) explains the feature, app workflow, use cases, and conditions people set through CSS/SVG diagrams and five fictional PR simulations. It is a single-file HTML artifact with no runtime network access or real PR operations. This independent companion introduces a further option without changing the core exercises' human-operated merge workflow.
+
 ---
 
 ## Exercise Flow

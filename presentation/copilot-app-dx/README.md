@@ -4,6 +4,8 @@ English | [日本語](README.ja.md)
 
 [Open the HTML source](index.html) for the Japanese/English, scroll-based audience guide to GitHub Copilot App. The core message is not faster code generation alone, but delegating work, inspecting evidence, and retaining human judgment.
 
+For feature details, app navigation, and use cases, see the independent [Agent Merge companion](../copilot-app-agent-merge/README.md). Its offline fictional PR simulations do not change this guide or the core workshop's human-operated merge policy.
+
 ## Contents
 
 - A central thesis and the task-based development loop
@@ -27,17 +29,27 @@ Open presentation\copilot-app-dx\index.html in a Browser Canvas.
 
 Use the existing **Browser** canvas, not the **AI Genius Slide Presenter** canvas. This guide is not a new Canvas extension and does not modify the slide deck.
 
-If the host cannot open local files, serve only this directory on loopback. From the repository root in PowerShell:
+If the host cannot open local files, serve the shared `presentation` directory on loopback so both sibling guides are reachable. From the repository root in PowerShell:
 
 ```powershell
-uv run --no-project python -m http.server 8765 --bind 127.0.0.1 --directory ".\presentation\copilot-app-dx"
+uv run --no-project python -m http.server 8765 --bind 127.0.0.1 --directory ".\presentation"
 ```
 
-Then open `http://127.0.0.1:8765/` in Browser Canvas. If port 8765 is already in use, choose another unused port; do not stop an unrelated process. Keep the server attached to the terminal and press Ctrl+C when finished. No GitHub Pages or public deployment is needed.
+Open `http://127.0.0.1:8765/copilot-app-dx/` for this guide or `http://127.0.0.1:8765/copilot-app-agent-merge/` for the companion in Browser Canvas. Do not serve just one guide directory or the whole repository root. If port 8765 is already in use, choose another unused port; do not stop an unrelated process. Keep the server attached to the terminal and press Ctrl+C when finished. No GitHub Pages or public deployment is needed.
+
+## Moving between guides
+
+The shared **DX guide / Agent Merge [Companion]** header links open the beginning of each guide in the same Canvas or browser tab. The underlined current-guide link returns to this page's beginning. The link after "Can be automated ≠ always automate it" opens the companion's capabilities chapter; its workshop link returns to this guide's boundaries chapter. Browser Back and Forward remain native navigation.
+
+Keep `copilot-app-dx` and `copilot-app-agent-merge` as sibling folders, each containing its `index.html`, when distributing the guides. Each HTML remains self-contained for reading, but reciprocal links require both folders in that relative layout, with either `file://` or the shared HTTP root above.
+
+With JavaScript enabled, only the fixed cross-guide links carry the displayed `lang=ja|en` and `scoutTheme=light|dark`. They update after language/theme controls or an applicable OS theme change; unrelated query values and simulation data are not forwarded. A valid URL language is applied after the translation catalog is prepared. Missing or invalid language means Japanese; missing or invalid theme follows the OS. If English cannot load, the visible error remains and links carry Japanese.
+
+Reloading uses the settings in the current URL, not the last control selection: controls do not rewrite that URL. With no valid URL settings, a reload starts in Japanese with the OS theme. No cookies, localStorage, sessionStorage, or other browser-storage writes are used. Simulation progress is not transferred between documents.
 
 ## Reading controls
 
-- Use **日本語 / English** in the header to switch the whole guide, including diagrams, controls, and accessible names. Every page load starts in Japanese; the selection lasts only until the page is reloaded. It is not stored or inferred from browser language settings.
+- Use **日本語 / English** in the header to switch the whole guide, including diagrams, controls, and accessible names. Japanese is the default unless the URL specifies a valid language. The selection is not stored or inferred from browser language settings.
 - English mode copies English speaking lines and prompts ending in `Answer in English.` and links to the English exercise READMEs. Japanese mode restores the original text, `Answer in Japanese.`, and Japanese links.
 - Switching languages preserves the theme, disclosure state, keyboard focus, and the nearby reading location. It clears old copy notifications without modifying the clipboard.
 - The table of contents follows the page on wide screens and collapses on narrower screens.
@@ -46,7 +58,7 @@ Then open `http://127.0.0.1:8765/` in Browser Canvas. If port 8765 is already in
 - The page follows the OS theme unless `?scoutTheme=light` or `?scoutTheme=dark` is supplied. The theme button changes the current view without writing browser storage.
 - Printing expands supplementary content and removes navigation controls.
 - Printing uses the currently displayed language.
-- With JavaScript disabled, the Japanese guide and native disclosures remain available; the language toggle is hidden.
+- With JavaScript disabled, the Japanese guide, relative cross-guide links, and native disclosures remain available in the default light appearance. URL display settings are not applied, and language/theme/print buttons are hidden; the browser's own print command still works.
 
 ## Updating translations
 
@@ -57,6 +69,8 @@ Each catalog entry has a stable `key`, a `selector` matching exactly one element
 When updating content, edit the Japanese markup and its English entry together. Update selectors if the markup structure changes. Keep translation targets non-overlapping, preserve IDs and controls, and use only the supported inline formatting: `strong`, `code`, `br`, `span`, and `a`. The renderer validates inline attributes and links before use. Keep JSON valid and encode `<` as `\u003c` in the embedded catalog.
 
 Dynamic interface messages use the matching keys in `japaneseUI` and the catalog's `ui` object. Maintain the English document metadata and language-specific `href` values as well. Product names, commands, font data, and the English OFL license are not translated.
+
+Cross-guide destinations belong to the fixed navigation code, not the translation catalog. Translate their text and accessible names without adding catalog `href` overrides or relaxing `safeLink` to allow arbitrary relative or executable URLs.
 
 The guide checks the English result in a detached DOM before enabling it. Missing text, inaccessible labels, invalid markup, ambiguous selectors, or untranslated Japanese document links disable English and show an explicit error, while leaving the Japanese guide usable.
 
